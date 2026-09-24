@@ -29,27 +29,27 @@
             height: 100vh;
             z-index: 1;
             pointer-events: none; /* Allows scrolling and clicks to pass through to content */
-            opacity: 0.55; /* Soft background blend */
+            opacity: 0.85; /* Increased opacity so the DNA pops brilliantly */
         }
 
-        /* Glass HUD Blueprint Frame Layer */
+        /* Glass HUD Blueprint Frame Layer - Made highly transparent */
         .hud-wrapper {
             position: relative;
             z-index: 2; /* Sits cleanly above the 3D canvas */
             max-width: 1200px;
             margin: 0 auto;
-            border: 1px solid rgba(168, 85, 247, 0.25); /* Soft Radiation Purple Border */
+            border: 1px solid rgba(168, 85, 247, 0.35); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(8, 10, 20, 0.88); /* Dark frosted glass */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(3, 5, 13, 0.35); /* Highly transparent void glass */
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             padding: 35px;
             box-shadow: 0 0 50px rgba(168, 85, 247, 0.08), inset 0 0 25px rgba(16, 185, 129, 0.01);
         }
 
         /* Terminal Boot Screen Header */
         .terminal-header {
-            background: #060810;
+            background: rgba(6, 8, 16, 0.4);
             border: 1px solid rgba(168, 85, 247, 0.35);
             padding: 25px;
             border-radius: 8px;
@@ -96,17 +96,20 @@
         .span-2 { grid-column: span 2; }
         @media (max-width: 900px) { .span-2, .span-3 { grid-column: span 1; } }
 
-        /* High Tech Submodule Cards */
+        /* High Tech Submodule Cards - Heavily transparent to reveal background DNA */
         .hud-card {
-            background: rgba(14, 11, 26, 0.65);
-            border: 1px solid rgba(168, 85, 247, 0.15);
+            background: rgba(10, 8, 20, 0.35);
+            border: 1px solid rgba(168, 85, 247, 0.25);
             border-radius: 8px;
             padding: 25px;
             position: relative;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
         .hud-card:hover {
             border-color: #a855f7;
+            background: rgba(14, 11, 26, 0.55);
             box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
             transform: translateY(-2px);
         }
@@ -140,7 +143,7 @@
             position: absolute;
             left: -9px;
             top: 0;
-            background: #080a14;
+            background: transparent;
             font-size: 12px;
         }
         .node-meta {
@@ -167,7 +170,7 @@
             gap: 10px;
         }
         .chip-badge {
-            background: rgba(168, 85, 247, 0.05);
+            background: rgba(168, 85, 247, 0.08);
             border: 1px solid rgba(168, 85, 247, 0.3);
             color: #c084fc;
             padding: 8px 14px;
@@ -177,7 +180,7 @@
             transition: all 0.2s;
         }
         .chip-badge:hover {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(16, 185, 129, 0.15);
             border-color: #10b981;
             color: #10b981;
             text-shadow: 0 0 8px #10b981;
@@ -303,7 +306,6 @@
             canvas.height = 32;
             const ctx = canvas.getContext('2d');
             
-            // Soft round radial glow gradient logic
             const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
             gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
             gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
@@ -344,19 +346,16 @@
         for (let i = 0; i < pairCount; i++) {
             const progress = (i / pairCount);
             const y = (progress * helixLength) - (helixLength / 2);
-            const angle = progress * Math.PI * 6.5; // Complete system revolutions
+            const angle = progress * Math.PI * 6.5;
 
-            // Coordinates for Strand A (Emerald Matrix Nodes)
             const xA = Math.cos(angle) * curveRadius;
             const zA = Math.sin(angle) * curveRadius;
             positionsA.push(xA, y, zA);
 
-            // Coordinates for Strand B (Rad-Purple Offset Nodes)
             const xB = Math.cos(angle + Math.PI) * curveRadius;
             const zB = Math.sin(angle + Math.PI) * curveRadius;
             positionsB.push(xB, y, zB);
 
-            // Map linking coordinates for structural bonds
             positionsRungs.push(xA, y, zA);
             positionsRungs.push(xB, y, zB);
         }
@@ -369,8 +368,8 @@
         const safeDotTexture = generateCircularParticleTexture();
 
         const materialA = new THREE.PointsMaterial({
-            color: 0x10b981, // Emerald Green
-            size: 1.8,       // Larger pop visibility rules
+            color: 0x10b981,
+            size: 1.8,
             map: safeDotTexture,
             transparent: true,
             blending: THREE.AdditiveBlending,
@@ -378,7 +377,7 @@
         });
 
         const materialB = new THREE.PointsMaterial({
-            color: 0xa855f7, // Radiation Purple
+            color: 0xa855f7,
             size: 1.8,
             map: safeDotTexture,
             transparent: true,
@@ -387,7 +386,7 @@
         });
 
         const rungsMaterial = new THREE.LineBasicMaterial({
-            color: 0x4b5563, // Muted molecular bonds
+            color: 0x4b5563,
             transparent: true,
             opacity: 0.35,
             blending: THREE.AdditiveBlending
@@ -404,19 +403,14 @@
         dnaStructure.add(lineRungs);
 
         dnaStructure.rotation.z = 0.35;
-        dnaStructure.position.x = 16; // Shift cleanly to the right frame field on desktop
+        dnaStructure.position.x = 16; 
         scene.add(dnaStructure);
 
         // 6. Animation Execution Processing Loop
         function animate() {
             requestAnimationFrame(animate);
-            
-            // Smooth spatial axis rotations
             dnaStructure.rotation.y += 0.007;
-            
-            // Unified molecular drift logic using continuous clock sine wave metrics
             dnaStructure.position.y = Math.sin(Date.now() * 0.0008) * 2;
-            
             renderer.render(scene, camera);
         }
 
@@ -427,13 +421,12 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             
             if (window.innerWidth < 950) {
-                dnaStructure.position.x = 0; // Centered matrix watermark styling on small viewports
+                dnaStructure.position.x = 0;
             } else {
                 dnaStructure.position.x = 16;
             }
         });
 
-        // Run orientation evaluation logic on initialization
         if (window.innerWidth < 950) {
             dnaStructure.position.x = 0;
         }
