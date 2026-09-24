@@ -28,11 +28,11 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none; /* Allows scrolling and clicks to pass through to content */
-            opacity: 0.85; /* Increased opacity so the DNA pops brilliantly */
+            pointer-events: none; /* Allows scrolling and clicks to pass through */
+            opacity: 0.85;
         }
 
-        /* Glass HUD Blueprint Frame Layer - Made highly transparent */
+        /* Glass HUD Blueprint Frame Layer */
         .hud-wrapper {
             position: relative;
             z-index: 2; /* Sits cleanly above the 3D canvas */
@@ -45,6 +45,48 @@
             -webkit-backdrop-filter: blur(4px);
             padding: 35px;
             box-shadow: 0 0 50px rgba(168, 85, 247, 0.08), inset 0 0 25px rgba(16, 185, 129, 0.01);
+        }
+
+        /* Terminal Navigation Bar */
+        .terminal-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: #c084fc;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+            color: #10b981;
+            text-shadow: 0 0 8px #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Page View Switching Container */
+        .page-view {
+            display: none;
+        }
+        .page-view.active-view {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Terminal Boot Screen Header */
@@ -64,7 +106,7 @@
             background: #03050d;
             padding: 0 10px;
             font-size: 11px;
-            color: #c084fc; /* Radiation Purple Accent */
+            color: #c084fc;
             letter-spacing: 2px;
         }
         .matrix-title {
@@ -96,7 +138,7 @@
         .span-2 { grid-column: span 2; }
         @media (max-width: 900px) { .span-2, .span-3 { grid-column: span 1; } }
 
-        /* High Tech Submodule Cards - Heavily transparent to reveal background DNA */
+        /* High Tech Submodule Cards */
         .hud-card {
             background: rgba(10, 8, 20, 0.35);
             border: 1px solid rgba(168, 85, 247, 0.25);
@@ -228,77 +270,152 @@
 
     <div class="hud-wrapper">
 
-        <!-- Header Terminal Banner -->
-        <header class="terminal-header">
-            <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
-            <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
-        </header>
+        <!-- Terminal Navigation Bar (Clickable Pages) -->
+        <nav class="terminal-nav">
+            <button class="nav-btn active" onclick="switchView('home-view', this)">[01 // HOME_MATRIX]</button>
+            <button class="nav-btn" onclick="switchView('projects-view', this)">[02 // PROJECTS]</button>
+            <button class="nav-btn" onclick="switchView('contact-view', this)">[03 // TRANSMIT_LOG]</button>
+        </nav>
 
-        <!-- Main Data Grid Dashboard -->
-        <main class="matrix-grid">
-            
-            <section class="hud-card span-3">
-                <h3>Research Objective & Core Focus</h3>
-                <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
-                    Computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
-                </p>
-            </section>
+        <!-- PAGE 1: HOME VIEW -->
+        <div id="home-view" class="page-view active-view">
+            <header class="terminal-header">
+                <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
+                <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
+            </header>
 
-            <section class="hud-card span-2">
-                <h3>Research Deployments [EXPERIENCE]</h3>
-                
-                <div class="stream-node">
-                    <div class="node-meta">NODE_01 // MULTI-OMICS PIPELINE // 2024 - PRESENT</div>
-                    <div class="node-header">Lead Bioinformatics Researcher @ Institute for Radiation Oncology</div>
-                    <div class="node-data">Developed custom Next-Generation Sequencing (NGS) variants processing pipelines to profile transcriptomic shifts post-hadron therapy. Accelerated multi-modal data processing workflows by 38% across massive genomic databases.</div>
-                </div>
-                
-                <div class="stream-node">
-                    <div class="node-meta">NODE_02 // DOSIMETRY MODELING // 2022 - 2024</div>
-                    <div class="node-header">Radiobiology Computation Fellow @ National Research Center</div>
-                    <div class="node-data">Constructed Monte Carlo track structure simulation arrays studying microdosimetric energy deposit patterns. Linked spatial ionization layouts with early kinetic repair responses in eukaryotic target cells.</div>
-                </div>
-            </section>
+            <main class="matrix-grid">
+                <section class="hud-card span-3">
+                    <h3>Research Objective & Core Focus</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
+                        Computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
+                    </p>
+                </section>
 
-            <section class="hud-card">
-                <h3>Bioinformatics & Tech Stack</h3>
-                <div class="chip-stack">
-                    <div class="chip-badge">R // Bioconductor</div>
-                    <div class="chip-badge">Python (SciPy/Scikit)</div>
-                    <div class="chip-badge">Nextflow Pipelines</div>
-                    <div class="chip-badge">RNA-Seq / ATAC-Seq</div>
-                    <div class="chip-badge">Monte Carlo (Geant4)</div>
-                    <div class="chip-badge">Linux High-Perf Compute</div>
-                    <div class="chip-badge">Docker Containers</div>
-                    <div class="chip-badge">Variant Calling (GATK)</div>
-                </div>
-            </section>
-
-            <section class="hud-card span-3">
-                <h3>Algorithmic Domain Load</h3>
-                <div class="system-radar">
-                    <div>
-                        <div class="radar-label">Transcriptomics & NGS Processing (95%)</div>
-                        <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
+                <section class="hud-card span-2">
+                    <h3>Research Deployments [EXPERIENCE]</h3>
+                    <div class="stream-node">
+                        <div class="node-meta">NODE_01 // MULTI-OMICS PIPELINE // 2024 - PRESENT</div>
+                        <div class="node-header">Lead Bioinformatics Researcher @ Institute for Radiation Oncology</div>
+                        <div class="node-data">Developed custom Next-Generation Sequencing (NGS) variants processing pipelines to profile transcriptomic shifts post-hadron therapy. Accelerated multi-modal data processing workflows by 38% across massive genomic databases.</div>
                     </div>
-                    <div>
-                        <div class="radar-label">Radiation Kinetic Modeling (88%)</div>
-                        <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
+                    <div class="stream-node">
+                        <div class="node-meta">NODE_02 // DOSIMETRY MODELING // 2022 - 2024</div>
+                        <div class="node-header">Radiobiology Computation Fellow @ National Research Center</div>
+                        <div class="node-data">Constructed Monte Carlo track structure simulation arrays studying microdosimetric energy deposit patterns. Linked spatial ionization layouts with early kinetic repair responses in eukaryotic target cells.</div>
                     </div>
-                    <div>
-                        <div class="radar-label">Statistical Machine Learning (78%)</div>
-                        <div class="radar-bar"><div class="radar-fill" style="width: 78%"></div></div>
-                    </div>
-                </div>
-            </section>
+                </section>
 
-        </main>
+                <section class="hud-card">
+                    <h3>Bioinformatics & Tech Stack</h3>
+                    <div class="chip-stack">
+                        <div class="chip-badge">R // Bioconductor</div>
+                        <div class="chip-badge">Python (SciPy/Scikit)</div>
+                        <div class="chip-badge">Nextflow Pipelines</div>
+                        <div class="chip-badge">RNA-Seq / ATAC-Seq</div>
+                        <div class="chip-badge">Monte Carlo (Geant4)</div>
+                        <div class="chip-badge">Linux High-Perf Compute</div>
+                        <div class="chip-badge">Docker Containers</div>
+                        <div class="chip-badge">Variant Calling (GATK)</div>
+                    </div>
+                </section>
+
+                <section class="hud-card span-3">
+                    <h3>Algorithmic Domain Load</h3>
+                    <div class="system-radar">
+                        <div>
+                            <div class="radar-label">Transcriptomics & NGS Processing (95%)</div>
+                            <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
+                        </div>
+                        <div>
+                            <div class="radar-label">Radiation Kinetic Modeling (88%)</div>
+                            <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
+                        </div>
+                        <div>
+                            <div class="radar-label">Statistical Machine Learning (78%)</div>
+                            <div class="radar-bar"><div class="radar-fill" style="width: 78%"></div></div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- PAGE 2: PROJECTS VIEW -->
+        <div id="projects-view" class="page-view">
+            <header class="terminal-header">
+                <h1 class="matrix-title">ACTIVE_REPOSITORIES // PIPELINES</h1>
+                <div class="typewriter-sub">Querying active bioinformatics codebases... Status: SECURE</div>
+            </header>
+
+            <main class="matrix-grid">
+                <section class="hud-card span-3">
+                    <h3>Rad-Transcriptomics Pipeline V4</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
+                        An automated Nextflow workflow designed for high-throughput analysis of radiation-induced differential gene expression profiles across diverse human cell lines.
+                    </p>
+                    <div class="chip-stack">
+                        <div class="chip-badge">Nextflow</div>
+                        <div class="chip-badge">Docker</div>
+                        <div class="chip-badge">GitHub Actions</div>
+                    </div>
+                </section>
+
+                <section class="hud-card span-3">
+                    <h3>Monte Carlo DSB Tracker</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
+                        Simulation utility tracking track-structure interactions and spatial cluster complexities for proton and carbon ion radiotherapy applications.
+                    </p>
+                    <div class="chip-stack">
+                        <div class="chip-badge">C++ / Geant4</div>
+                        <div class="chip-badge">Python wrappers</div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- PAGE 3: CONTACT VIEW -->
+        <div id="contact-view" class="page-view">
+            <header class="terminal-header">
+                <h1 class="matrix-title">SECURE_TRANSMISSION // CHANNEL</h1>
+                <div class="typewriter-sub">Establish encrypted handshake... Ready for input</div>
+            </header>
+
+            <main class="matrix-grid">
+                <section class="hud-card span-3">
+                    <h3>Direct Communications Matrix</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                        To initiate secure correspondence regarding radiobiology collaboration or research data exchange, route inquiries through standard channels:
+                    </p>
+                    <div class="chip-stack">
+                        <div class="chip-badge">EMAIL: morgan.radbio@institute.org</div>
+                        <div class="chip-badge">GITHUB: github.com/alexmorgan-radbio</div>
+                        <div class="chip-badge">ORCID: 0000-0002-1829-XXXX</div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
     </div>
 
     <!-- Include Three.js Library from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <script>
+        // View Switcher Script
+        function switchView(viewId, element) {
+            // Hide all views
+            const views = document.querySelectorAll('.page-view');
+            views.forEach(v => v.classList.remove('active-view'));
+
+            // Show target view
+            document.getElementById(viewId).classList.add('active-view');
+
+            // Update active button styling
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+
         // 1. Safe Off-Screen 2D Canvas Dot-Texture Generator
         function generateCircularParticleTexture() {
             const canvas = document.createElement('canvas');
