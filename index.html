@@ -29,7 +29,7 @@
             height: 100vh;
             z-index: 1;
             pointer-events: none; /* Allows scrolling and clicks to pass through to content */
-            opacity: 0.45; /* Soft background blend */
+            opacity: 0.55; /* Soft background blend */
         }
 
         /* Glass HUD Blueprint Frame Layer */
@@ -40,9 +40,9 @@
             margin: 0 auto;
             border: 1px solid rgba(168, 85, 247, 0.25); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(8, 10, 20, 0.85); /* Dark frosted glass */
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(8, 10, 20, 0.88); /* Dark frosted glass */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 35px;
             box-shadow: 0 0 50px rgba(168, 85, 247, 0.08), inset 0 0 25px rgba(16, 185, 129, 0.01);
         }
@@ -98,7 +98,7 @@
 
         /* High Tech Submodule Cards */
         .hud-card {
-            background: rgba(14, 11, 26, 0.6);
+            background: rgba(14, 11, 26, 0.65);
             border: 1px solid rgba(168, 85, 247, 0.15);
             border-radius: 8px;
             padding: 25px;
@@ -160,7 +160,7 @@
             text-align: justify;
         }
 
-        /* Glowing Microchip Capability Badges */
+        /* Glowing Capability Badges */
         .chip-stack {
             display: flex;
             flex-wrap: wrap;
@@ -183,11 +183,16 @@
             text-shadow: 0 0 8px #10b981;
         }
 
-        /* Real-Time Diagnostics (Skills Metrics) */
+        /* Skills Metrics Bars */
         .system-radar {
             display: flex;
             flex-direction: column;
             gap: 15px;
+        }
+        .radar-label {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            margin-bottom: 5px;
         }
         .radar-bar {
             background: rgba(255, 255, 255, 0.05);
@@ -215,61 +220,225 @@
 </head>
 <body>
 
-<!-- 3D Canvas Mounting Point -->
-<div id="canvas-container"></div>
+    <!-- 3D Canvas Mounting Point -->
+    <div id="canvas-container"></div>
 
-<div class="hud-wrapper">
+    <div class="hud-wrapper">
 
-    <!-- System Terminal Top Header Bar -->
-    <header class="terminal-header">
-        <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
-        <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
-    </header>
+        <!-- Header Terminal Banner -->
+        <header class="terminal-header">
+            <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
+            <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
+        </header>
 
-    <!-- Main Datastream Processing Grid -->
-    <main class="matrix-grid">
-        
-        <!-- Live System Summary Box -->
-        <section class="hud-card span-3">
-            <h3>Research Objective & Core Focus</h3>
-            <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
-                Computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
-            </p>
-        </section>
-
-        <!-- Experience Timeline Stream -->
-        <section class="hud-card span-2">
-            <h3>Research Deployments [EXPERIENCE]</h3>
+        <!-- Main Data Grid Dashboard -->
+        <main class="matrix-grid">
             
-            <div class="stream-node">
-                <div class="node-meta">NODE_01 // MULTI-OMICS PIPELINE // 2024 - PRESENT</div>
-                <div class="node-header">Lead Bioinformatics Researcher @ Institute for Radiation Oncology</div>
-                <div class="node-data">Developed custom Next-Generation Sequencing (NGS) variants processing pipelines to profile transcriptomic shifts post-hadron therapy. Accelerated multi-modal data processing workflows by 38% across massive genomic databases.</div>
-            </div>
+            <section class="hud-card span-3">
+                <h3>Research Objective & Core Focus</h3>
+                <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
+                    Computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
+                </p>
+            </section>
+
+            <section class="hud-card span-2">
+                <h3>Research Deployments [EXPERIENCE]</h3>
+                
+                <div class="stream-node">
+                    <div class="node-meta">NODE_01 // MULTI-OMICS PIPELINE // 2024 - PRESENT</div>
+                    <div class="node-header">Lead Bioinformatics Researcher @ Institute for Radiation Oncology</div>
+                    <div class="node-data">Developed custom Next-Generation Sequencing (NGS) variants processing pipelines to profile transcriptomic shifts post-hadron therapy. Accelerated multi-modal data processing workflows by 38% across massive genomic databases.</div>
+                </div>
+                
+                <div class="stream-node">
+                    <div class="node-meta">NODE_02 // DOSIMETRY MODELING // 2022 - 2024</div>
+                    <div class="node-header">Radiobiology Computation Fellow @ National Research Center</div>
+                    <div class="node-data">Constructed Monte Carlo track structure simulation arrays studying microdosimetric energy deposit patterns. Linked spatial ionization layouts with early kinetic repair responses in eukaryotic target cells.</div>
+                </div>
+            </section>
+
+            <section class="hud-card">
+                <h3>Bioinformatics & Tech Stack</h3>
+                <div class="chip-stack">
+                    <div class="chip-badge">R // Bioconductor</div>
+                    <div class="chip-badge">Python (SciPy/Scikit)</div>
+                    <div class="chip-badge">Nextflow Pipelines</div>
+                    <div class="chip-badge">RNA-Seq / ATAC-Seq</div>
+                    <div class="chip-badge">Monte Carlo (Geant4)</div>
+                    <div class="chip-badge">Linux High-Perf Compute</div>
+                    <div class="chip-badge">Docker Containers</div>
+                    <div class="chip-badge">Variant Calling (GATK)</div>
+                </div>
+            </section>
+
+            <section class="hud-card span-3">
+                <h3>Algorithmic Domain Load</h3>
+                <div class="system-radar">
+                    <div>
+                        <div class="radar-label">Transcriptomics & NGS Processing (95%)</div>
+                        <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
+                    </div>
+                    <div>
+                        <div class="radar-label">Radiation Kinetic Modeling (88%)</div>
+                        <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
+                    </div>
+                    <div>
+                        <div class="radar-label">Statistical Machine Learning (78%)</div>
+                        <div class="radar-bar"><div class="radar-fill" style="width: 78%"></div></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Include Three.js Library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        // 1. Safe Off-Screen 2D Canvas Dot-Texture Generator
+        function generateCircularParticleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32;
+            canvas.height = 32;
+            const ctx = canvas.getContext('2d');
             
-            <div class="stream-node">
-                <div class="node-meta">NODE_02 // DOSIMETRY MODELING // 2022 - 2024</div>
-                <div class="node-header">Radiobiology Computation Fellow @ National Research Center</div>
-                <div class="node-data">Constructed Monte Carlo track structure simulation arrays studying microdosimetric energy deposit patterns. Linked spatial ionization layouts with early kinetic repair responses in eukaryotic target cells.</div>
-            </div>
-        </section>
+            // Soft round radial glow gradient logic
+            const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.colorSpace = THREE.SRGBColorSpace;
+            return texture;
+        }
 
-        <!-- Interactive Capability Badges Stack -->
-        <section class="hud-card">
-            <h3>Bioinformatics & Tech Stack</h3>
-            <div class="chip-stack">
-                <div class="chip-badge">R // Bioconductor</div>
-                <div class="chip-badge">Python (SciPy/Scikit)</div>
-                <div class="chip-badge">Nextflow Pipelines</div>
-                <div class="chip-badge">RNA-Seq / ATAC-Seq</div>
-                <div class="chip-badge">Monte Carlo (Geant4)</div>
-                <div class="chip-badge">Linux High-Perf Compute</div>
-                <div class="chip-badge">Docker Containers</div>
-                <div class="chip-badge">Variant Calling (GATK)</div>
-            </div>
-        </section>
+        // 2. Initialise 3D Scene Properties
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 45;
 
-        <!-- Metric Systems Radar Load Bars -->
-        <section class="hud-card">
-            <h3>Algorithmic Domain Load</h3>
-            <div class="system-radar">
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // 3. Generate Mathematical Helix Nodes Arrays
+        const pairCount = 75;
+        const curveRadius = 8.5;
+        const helixLength = 65;
+
+        const strandA_Geometry = new THREE.BufferGeometry();
+        const strandB_Geometry = new THREE.BufferGeometry();
+        const rungsGeometry = new THREE.BufferGeometry();
+
+        const positionsA = [];
+        const positionsB = [];
+        const positionsRungs = [];
+
+        for (let i = 0; i < pairCount; i++) {
+            const progress = (i / pairCount);
+            const y = (progress * helixLength) - (helixLength / 2);
+            const angle = progress * Math.PI * 6.5; // Complete system revolutions
+
+            // Coordinates for Strand A (Emerald Matrix Nodes)
+            const xA = Math.cos(angle) * curveRadius;
+            const zA = Math.sin(angle) * curveRadius;
+            positionsA.push(xA, y, zA);
+
+            // Coordinates for Strand B (Rad-Purple Offset Nodes)
+            const xB = Math.cos(angle + Math.PI) * curveRadius;
+            const zB = Math.sin(angle + Math.PI) * curveRadius;
+            positionsB.push(xB, y, zB);
+
+            // Map linking coordinates for structural bonds
+            positionsRungs.push(xA, y, zA);
+            positionsRungs.push(xB, y, zB);
+        }
+
+        strandA_Geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsA, 3));
+        strandB_Geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsB, 3));
+        rungsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsRungs, 3));
+
+        // 4. Mount Custom Native Canvas Textures into Particle Engines
+        const safeDotTexture = generateCircularParticleTexture();
+
+        const materialA = new THREE.PointsMaterial({
+            color: 0x10b981, // Emerald Green
+            size: 1.8,       // Larger pop visibility rules
+            map: safeDotTexture,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const materialB = new THREE.PointsMaterial({
+            color: 0xa855f7, // Radiation Purple
+            size: 1.8,
+            map: safeDotTexture,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+
+        const rungsMaterial = new THREE.LineBasicMaterial({
+            color: 0x4b5563, // Muted molecular bonds
+            transparent: true,
+            opacity: 0.35,
+            blending: THREE.AdditiveBlending
+        });
+
+        // 5. Build and Position Composite Assembly System
+        const pointsStrandA = new THREE.Points(strandA_Geometry, materialA);
+        const pointsStrandB = new THREE.Points(strandB_Geometry, materialB);
+        const lineRungs = new THREE.LineSegments(rungsGeometry, rungsMaterial);
+
+        const dnaStructure = new THREE.Group();
+        dnaStructure.add(pointsStrandA);
+        dnaStructure.add(pointsStrandB);
+        dnaStructure.add(lineRungs);
+
+        dnaStructure.rotation.z = 0.35;
+        dnaStructure.position.x = 16; // Shift cleanly to the right frame field on desktop
+        scene.add(dnaStructure);
+
+        // 6. Animation Execution Processing Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Smooth spatial axis rotations
+            dnaStructure.rotation.y += 0.007;
+            
+            // Unified molecular drift logic using continuous clock sine wave metrics
+            dnaStructure.position.y = Math.sin(Date.now() * 0.0008) * 2;
+            
+            renderer.render(scene, camera);
+        }
+
+        // 7. Responsive Window Vector Recalibration Handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            if (window.innerWidth < 950) {
+                dnaStructure.position.x = 0; // Centered matrix watermark styling on small viewports
+            } else {
+                dnaStructure.position.x = 16;
+            }
+        });
+
+        // Run orientation evaluation logic on initialization
+        if (window.innerWidth < 950) {
+            dnaStructure.position.x = 0;
+        }
+
+        animate();
+    </script>
+</body>
+</html>
