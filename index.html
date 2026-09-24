@@ -1,17 +1,228 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My 3D GitHub Page</title>
-    <!-- Alternative stable CDN link for A-Frame -->
-    <script src="https://jsdelivr.net"></script>
-  </head>
-  <body>
-    <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9" animation="property: rotation; to: 0 405 0; loop: true; dur: 5000"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-    </a-scene>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Resume</title>
+    <style>
+        /* Global Page Setup */
+        body {
+            font-family: "Arial", "Helvetica Neue", Helvetica, sans-serif;
+            color: #333333;
+            line-height: 1.4;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f4f4f4;
+        }
+
+        .resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px 60px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+        }
+
+        /* Typography & Header styling */
+        h1 {
+            font-family: "Georgia", serif;
+            color: #A51C30; /* Official Harvard Crimson Tone */
+            text-align: center;
+            font-size: 26px;
+            letter-spacing: 0.5px;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+
+        .meta-by {
+            text-align: center;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .contact-info {
+            text-align: center;
+            font-size: 13px;
+            color: #222222;
+            margin-bottom: 25px;
+        }
+
+        /* Section Layouts */
+        h2 {
+            font-size: 14px;
+            color: #A51C30;
+            text-transform: uppercase;
+            margin: 20px 0 3px 0;
+            padding-bottom: 2px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #c0c0c0;
+            margin: 0 0 12px 0;
+        }
+
+        .summary-text {
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        /* Timeline block flex styling */
+        .entry-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 2px;
+        }
+
+        .title-left {
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .meta-right {
+            font-size: 13px;
+            text-align: right;
+        }
+
+        .subtitle-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+
+        /* Bullet Points spacing */
+        ul {
+            margin: 0 0 12px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 13px;
+            margin-bottom: 4px;
+            text-align: justify;
+        }
+
+        .skills-list li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="resume-container">
+
+    <!-- Header & Contact section -->
+    <h1>FIRSTNAME LASTNAME</h1>
+    <div class="meta-by">By Resume Genius Template</div>
+    <div class="contact-info">
+        Home or Campus Address (optional) &bull; City, State Zip &bull; youremail@email.com &bull; (xxx) xxx-xxxx
+    </div>
+
+    <!-- Summary Section -->
+    <h2>Summary</h2>
+    <hr>
+    <p class="summary-text">
+        Include a short, focused overview highlighting your key strengths, interests, and relevant experience. Aim for 2–3 concise sentences that give employers a clear sense of your abilities, academic focus, or career goals. Avoid generic statements; instead, emphasise qualities or achievements that directly support the roles you’re seeking.
+    </p>
+
+    <!-- Education Section -->
+    <h2>Education</h2>
+    <hr>
+    
+    <div class="entry-row">
+        <div class="title-left">School Name</div>
+        <div class="meta-right">City, State</div>
+    </div>
+    <div class="subtitle-row">
+        <div>Degree, Concentration</div>
+        <div>Graduation Date</div>
+    </div>
+    <ul>
+        <li>Honors/GPA (optional)</li>
+        <li>Coursework (optional): Include if you don't have much work experience – highly relevant courses only</li>
+        <li>Thesis (optional): "[Thesis Title]"</li>
+    </ul>
+
+    <div class="entry-row">
+        <div class="title-left">School Name</div>
+        <div class="meta-right">City, State</div>
+    </div>
+    <div class="subtitle-row">
+        <div>Degree, Concentration</div>
+        <div>Graduation Date</div>
+    </div>
+    <ul>
+        <li>Honors/GPA (optional)</li>
+        <li>Coursework (optional): Include if you don't have much work experience – highly relevant courses only</li>
+        <li>Thesis (optional): "[Thesis Title]"</li>
+    </ul>
+
+    <!-- Experience Section -->
+    <h2>Experience</h2>
+    <hr>
+
+    <div class="entry-row">
+        <div class="title-left">Company Name</div>
+        <div class="meta-right">City, State</div>
+    </div>
+    <div class="subtitle-row">
+        <div>Job Title</div>
+        <div>Start Date – End Date</div>
+    </div>
+    <ul>
+        <li>Starting with your latest role, outline your responsibilities, achievements, and outcomes using bullet points</li>
+        <li>Avoid personal pronouns; lead each bullet with an action verb</li>
+        <li>Add numbers or metrics to show the scale and impact of your achievements</li>
+        <li>Use present tense for current responsibilities, past tense for achievements and previous roles</li>
+    </ul>
+
+    <div class="entry-row">
+        <div class="title-left">Company Name</div>
+        <div class="meta-right">City, State</div>
+    </div>
+    <div class="subtitle-row">
+        <div>Job Title</div>
+        <div>Start Date – End Date</div>
+    </div>
+    <ul>
+        <li>For your next role, continue describing your work, skills, and results in bullet form</li>
+        <li>Avoid repeating achievements if you have more recent examples</li>
+    </ul>
+
+    <!-- Leadership Section -->
+    <h2>Leadership & Activities</h2>
+    <hr>
+
+    <div class="entry-row">
+        <div class="title-left">Organization Name</div>
+        <div class="meta-right">City, State</div>
+    </div>
+    <div class="subtitle-row">
+        <div>Role</div>
+        <div>Start Date – End Date</div>
+    </div>
+    <ul>
+        <li>You may format this section like the Experience section or list roles without bullet descriptions</li>
+        <li>If these activities are more relevant to the opportunity, consider placing this section above Experience</li>
+    </ul>
+
+    <!-- Skills Section -->
+    <h2>Skills</h2>
+    <hr>
+    <ul class="skills-list">
+        <li><strong>Grouping:</strong> Group your skills by theme to save space and improve readability</li>
+        <li><strong>Relevance:</strong> List your relevant technical skills first to align your resume with the target role</li>
+        <li><strong>Languages:</strong> If adding foreign languages, include your level of proficiency</li>
+    </ul>
+
+</div>
+
+</body>
 </html>
