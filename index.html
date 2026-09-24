@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radiobiology Matrix // Bioinformatics Terminal</title>
     <style>
-        /* Cyber-Grid Interface Foundation */
+        /* Base Setup & Reset */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,51 +13,63 @@
         }
         body {
             font-family: 'Courier New', Courier, monospace;
-            background-color: #030712; /* Deep space void */
-            background-image: 
-                linear-gradient(rgba(147, 51, 234, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(147, 51, 234, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-color: #03050d; /* Ultra deep space void */
             color: #10b981; /* Toxic Emerald Green */
             padding: 40px 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Glass HUD Blueprint Frame */
+        /* 3D Canvas Layer */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none; /* Allows scrolling and clicks to pass through to content */
+            opacity: 0.45; /* Soft background blend */
+        }
+
+        /* Glass HUD Blueprint Frame Layer */
         .hud-wrapper {
+            position: relative;
+            z-index: 2; /* Sits cleanly above the 3D canvas */
             max-width: 1200px;
             margin: 0 auto;
-            border: 1px solid rgba(168, 85, 247, 0.2); /* Soft Radiation Purple Border */
+            border: 1px solid rgba(168, 85, 247, 0.25); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(10, 11, 22, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(8, 10, 20, 0.85); /* Dark frosted glass */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 35px;
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.05), inset 0 0 25px rgba(16, 185, 129, 0.02);
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.08), inset 0 0 25px rgba(16, 185, 129, 0.01);
         }
 
-        /* Animated Terminal Boot Screen Header */
+        /* Terminal Boot Screen Header */
         .terminal-header {
-            background: #09090b;
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: #060810;
+            border: 1px solid rgba(168, 85, 247, 0.35);
             padding: 25px;
             border-radius: 8px;
             margin-bottom: 30px;
             position: relative;
         }
         .terminal-header::before {
-            content: "RADIATION_GENOMICS_PIPELINE // VER 4.8.2";
+            content: "RADIATION_GENOMICS_PIPELINE // SECURE_CORE";
             position: absolute;
             top: -10px;
             left: 20px;
-            background: #030712;
+            background: #03050d;
             padding: 0 10px;
             font-size: 11px;
-            color: #c084fc; /* Rad紫 Accent */
+            color: #c084fc; /* Radiation Purple Accent */
             letter-spacing: 2px;
         }
         .matrix-title {
             font-size: 2.2rem;
-            color: #a855f7; /* Radiation Purple */
+            color: #a855f7; 
             text-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
             margin-bottom: 10px;
         }
@@ -86,7 +98,7 @@
 
         /* High Tech Submodule Cards */
         .hud-card {
-            background: rgba(17, 12, 28, 0.4);
+            background: rgba(14, 11, 26, 0.6);
             border: 1px solid rgba(168, 85, 247, 0.15);
             border-radius: 8px;
             padding: 25px;
@@ -95,7 +107,7 @@
         }
         .hud-card:hover {
             border-color: #a855f7;
-            box-shadow: 0 0 25px rgba(168, 85, 247, 0.15);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
             transform: translateY(-2px);
         }
         .hud-card h3 {
@@ -128,7 +140,7 @@
             position: absolute;
             left: -9px;
             top: 0;
-            background: #0a0b16;
+            background: #080a14;
             font-size: 12px;
         }
         .node-meta {
@@ -190,7 +202,7 @@
             box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
         }
 
-        /* Keyframe Engineering Animations */
+        /* Animations */
         @keyframes typing {
             from { width: 0 }
             to { width: 100% }
@@ -203,9 +215,12 @@
 </head>
 <body>
 
+<!-- 3D Canvas Mounting Point -->
+<div id="canvas-container"></div>
+
 <div class="hud-wrapper">
 
-    <!-- Interactive Top System Terminal -->
+    <!-- System Terminal Top Header Bar -->
     <header class="terminal-header">
         <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
         <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
@@ -222,7 +237,7 @@
             </p>
         </section>
 
-        <!-- Chronological Execution Stream (Experience) -->
+        <!-- Experience Timeline Stream -->
         <section class="hud-card span-2">
             <h3>Research Deployments [EXPERIENCE]</h3>
             
@@ -239,7 +254,7 @@
             </div>
         </section>
 
-        <!-- Dynamic Capability Index -->
+        <!-- Interactive Capability Badges Stack -->
         <section class="hud-card">
             <h3>Bioinformatics & Tech Stack</h3>
             <div class="chip-stack">
@@ -254,13 +269,7 @@
             </div>
         </section>
 
-        <!-- Real-Time Diagnostics (Skills Metrics) -->
+        <!-- Metric Systems Radar Load Bars -->
         <section class="hud-card">
             <h3>Algorithmic Domain Load</h3>
             <div class="system-radar">
-                <div>Transcriptomics & NGS Processing (95%)</div>
-                <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
-                
-                <div>Radiation Kinetic Modeling (88%)</div>
-                <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
-                
