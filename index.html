@@ -3,236 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name | Creative Portfolio</title>
+    <title>Operator Terminal | Cybernetic CV</title>
     <style>
-        /* Global Aesthetic Setup */
+        /* Cyber-Grid Interface Foundation */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0f19; /* Deep midnight blue */
-            color: #f3f4f6;
-            line-height: 1.6;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #050811; /* Abyssal Void */
+            background-image: 
+                linear-gradient(rgba(18, 24, 38, 0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 24, 38, 0.4) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #00ffaa; /* Neon Matrix Green */
             padding: 40px 20px;
+            overflow-x: hidden;
         }
 
-        .portfolio-wrapper {
-            max-width: 1000px;
+        /* Glass HUD Blueprint Frame */
+        .hud-wrapper {
+            max-width: 1100px;
             margin: 0 auto;
+            border: 1px solid #00ffaa33;
+            border-radius: 12px;
+            background: rgba(10, 17, 32, 0.75);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 170, 0.05), inset 0 0 20px rgba(0, 255, 170, 0.05);
         }
 
-        /* Hero / Introduction Split Grid */
-        .hero-banner {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 40px;
-            align-items: center;
+        /* Animated Terminal Boot Screen Header */
+        .terminal-header {
+            background: #02040a;
+            border: 1px solid #00ffaa44;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: relative;
         }
-        @media (max-width: 768px) {
-            .hero-banner { grid-template-columns: 1fr; }
+        .terminal-header::before {
+            content: "CORE_SYSTEM_ACTIVE //";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #050811;
+            padding: 0 10px;
+            font-size: 11px;
+            color: #00e5ff; /* Cyan Core Accent */
+            letter-spacing: 2px;
         }
-        .hero-text h1 {
-            font-size: 3rem;
-            color: #38bdf8; /* Bright electric sky blue */
+        .matrix-title {
+            font-size: 2.2rem;
+            color: #00e5ff;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
             margin-bottom: 10px;
         }
-        .hero-text h2 {
-            font-size: 1.4rem;
-            color: #94a3b8;
-            font-weight: 400;
-            margin-bottom: 20px;
+        .typewriter-sub {
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 2px solid #00ffaa;
+            animation: typing 3.5s steps(40, end), blink .75s step-end infinite;
+            max-width: fit-content;
         }
-        .hero-text p {
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            max-width: 600px;
-        }
-        .quick-contact {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .quick-contact div {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: #94a3b8;
-        }
-        .quick-contact span { color: #f3f4f6; font-weight: 500; }
 
-        /* Modern Dashboard Card Grid Layout */
-        .dashboard-grid {
+        /* Matrix Data Main Dashboard Layout */
+        .matrix-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
+            gap: 20px;
         }
         @media (max-width: 900px) {
-            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .matrix-grid { grid-template-columns: 1fr; }
         }
-        @media (max-width: 600px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-        }
-
-        /* Span settings to break standard matrix structure */
+        .span-3 { grid-column: span 3; }
         .span-2 { grid-column: span 2; }
-        @media (max-width: 900px) { .span-2 { grid-column: span 1; } }
+        @media (max-width: 900px) { .span-2, .span-3 { grid-column: span 1; } }
 
-        /* Card Block Designs */
-        .card-block {
-            background-color: #1e293b;
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s;
-        }
-        .card-block:hover {
-            transform: translateY(-5px);
-            border-color: #38bdf8;
-        }
-        .card-block h3 {
-            font-size: 1.25rem;
-            color: #38bdf8;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-left: 4px solid #38bdf8;
-            padding-left: 10px;
-        }
-
-        /* Timeline Items inside cards */
-        .timeline-item {
+        /* High Tech Submodule Cards */
+        .hud-card {
+            background: rgba(13, 22, 41, 0.6);
+            border: 1px solid #00ffaa22;
+            border-radius: 8px;
+            padding: 25px;
             position: relative;
-            padding-left: 20px;
-            border-left: 2px solid #334155;
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .hud-card:hover {
+            border-color: #00e5ff;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .hud-card h3 {
+            font-size: 1.1rem;
+            color: #00e5ff;
             margin-bottom: 20px;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 6px;
-            width: 10px;
-            height: 10px;
-            background-color: #38bdf8;
-            border-radius: 50%;
+        .hud-card h3::after {
+            content: "[ONLINE]";
+            font-size: 10px;
+            color: #00ffaa;
         }
-        .timeline-item:last-child { margin-bottom: 0; }
-        .item-title { font-weight: bold; font-size: 1.05rem; color: #ffffff; }
-        .item-subtitle { font-size: 0.9rem; color: #94a3b8; margin-bottom: 5px; }
-        .item-desc { font-size: 0.9rem; color: #cbd5e1; }
 
-        /* Interactive Tag Cloud for Skills */
-        .tag-cloud {
+        /* Diagnostic Timeline Stream */
+        .stream-node {
+            border-left: 2px dashed #00ffaa44;
+            padding-left: 20px;
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .stream-node:last-child { margin-bottom: 0; border-left: 2px dashed transparent; }
+        .stream-node::before {
+            content: ">>";
+            position: absolute;
+            left: -10px;
+            top: 0;
+            background: #0d1629;
+            color: #00ffaa;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .node-meta {
+            font-size: 0.85rem;
+            color: #00e5ff88;
+            margin-bottom: 4px;
+        }
+        .node-header {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .node-data {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            text-align: justify;
+        }
+
+        /* Glowing Microchip Capability Badges */
+        .chip-stack {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
-        .tag {
-            background-color: #334155;
-            color: #e2e8f0;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.2s;
+        .chip-badge {
+            background: rgba(0, 255, 170, 0.03);
+            border: 1px solid #00ffaa33;
+            color: #00ffaa;
+            padding: 8px 14px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .tag:hover {
-            background-color: #38bdf8;
-            color: #0f172a;
-            cursor: default;
+        .chip-badge:hover {
+            background: #00ffaa15;
+            border-color: #00ffaa;
+            text-shadow: 0 0 8px #00ffaa;
+        }
+
+        /* Real-Time Parameter Monitoring Module */
+        .system-radar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .radar-bar {
+            background: rgba(255,255,255,0.05);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #00ffaa11;
+        }
+        .radar-fill {
+            background: linear-gradient(90deg, #00ffaa, #00e5ff);
+            height: 100%;
+            box-shadow: 0 0 10px #00e5ff;
+        }
+
+        /* Keyframe Engineering Animations */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #00ffaa }
         }
     </style>
 </head>
 <body>
 
-<div class="portfolio-wrapper">
+<div class="hud-wrapper">
 
-    <!-- Interactive Top Hero Showcase Layout -->
-    <header class="hero-banner">
-        <div class="hero-text">
-            <h1>Alex Morgan</h1>
-            <h2>Full Stack Developer & Product Designer</h2>
-            <p>I build beautiful, highly functional digital experiences. Specializing in responsive web systems, intuitive interfaces, and clean, modular application architecture.</p>
-        </div>
-        <div class="quick-contact">
-            <div>Loc: <span>San Francisco, CA</span></div>
-            <div>Email: <span>alex@example.com</span></div>
-            <div>GitHub: <span>@alexdev</span></div>
-            <div>Web: <span>alex.github.io</span></div>
-        </div>
+    <!-- Interactive Top System Terminal -->
+    <header class="terminal-header">
+        <h1 class="matrix-title">OPERATOR_ID: CORE_NEURAL_LINK</h1>
+        <div class="typewriter-sub">Initializing matrix protocols... Status: SECURE_CORE_ACCESS_GRANTED</div>
     </header>
 
-    <!-- Visual Dashboard Layout Grid System -->
-    <main class="dashboard-grid">
+    <!-- Main Datastream Processing Grid -->
+    <main class="matrix-grid">
         
-        <!-- Block 1: Professional Experience -->
-        <section class="card-block span-2">
-            <h3>Experience</h3>
+        <!-- Live System Summary Box -->
+        <section class="hud-card span-3">
+            <h3>System Objective Summary</h3>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">
+                Root computational designer specialized in engineering secure, ultra-low-latency distributed client interface environments. Processing architectural execution systems to bridge complex decentralized web matrices with high-grade human UI layout engines.
+            </p>
+        </section>
+
+        <!-- Chronological Execution Stream (Experience) -->
+        <section class="hud-card span-2">
+            <h3>Deployment History [EXPERIENCE]</h3>
             
-            <div class="timeline-item">
-                <div class="item-title">Senior Frontend Engineer</div>
-                <div class="item-subtitle">TechCorp Solutions | 2024 - Present</div>
-                <div class="item-desc">Architected high-scale web platforms using modern environments. Accelerated page rendering performance metrics by 35% across primary applications.</div>
+            <div class="stream-node">
+                <div class="node-meta">NODE_01 // SECURE_NET // 2024 - PRESENT</div>
+                <div class="node-header">Principal Core Systems Engineer @ Cyberdyne Labs</div>
+                <div class="node-data">Designed scalable matrix structures for parallel server arrays. Optimized automated interface initialization workflows, trimming execution latencies down by 42% across globally hosted clusters.</div>
             </div>
             
-            <div class="timeline-item">
-                <div class="item-title">UI/UX Web Developer</div>
-                <div class="item-subtitle">Pixel Perfect Studio | 2022 - 2024</div>
-                <div class="item-desc">Designed responsive web landscapes and client dashboards. Collaborated across technical teams to translate static visual layouts into interactive web realities.</div>
+            <div class="stream-node">
+                <div class="node-meta">NODE_02 // SYNC_NET // 2022 - 2024</div>
+                <div class="node-header">Quantum Logic Interface Architect @ Nexus Systems</div>
+                <div class="node-data">Constructed asynchronous dashboard visualization layers tracking streaming diagnostics. Developed interactive grid systems and customized rendering blueprints via reactive JS models.</div>
             </div>
         </section>
 
-        <!-- Block 2: Tech Capabilities Stack -->
-        <section class="card-block">
-            <h3>Skills & Tools</h3>
-            <div class="tag-cloud">
-                <span class="tag">JavaScript (ES6+)</span>
-                <span class="tag">HTML5 / CSS3</span>
-                <span class="tag">React.js</span>
-                <span class="tag">TypeScript</span>
-                <span class="tag">Git / GitHub</span>
-                <span class="tag">UI/UX Layouts</span>
-                <span class="tag">Node.js</span>
-                <span class="tag">TailwindCSS</span>
-                <span class="tag">RESTful APIs</span>
+        <!-- Dynamic Capability Index -->
+        <section class="hud-card">
+            <h3>Diagnostic Core Tech Matrix</h3>
+            <div class="chip-stack">
+                <div class="chip-badge">C++ // Rust</div>
+                <div class="chip-badge">TypeScript</div>
+                <div class="chip-badge">WebGL / WebGPU</div>
+                <div class="chip-badge">Node.js Layer</div>
+                <div class="chip-badge">Docker Containers</div>
+                <div class="chip-badge">Kubernetes Orchestration</div>
+                <div class="chip-badge">Cybersecurity Protocols</div>
+                <div class="chip-badge">Linux Kernel Controls</div>
             </div>
         </section>
 
-        <!-- Block 3: Education Profiles -->
-        <section class="card-block">
-            <h3>Education</h3>
-            <div class="timeline-item">
-                <div class="item-title">B.S. in Computer Science</div>
-                <div class="item-subtitle">State University | 2018 - 2022</div>
-                <div class="item-desc">Focused curriculum on web technologies, systemic architecture rules, and functional human-computer layout concepts.</div>
+        <!-- Real-Time Diagnostics (Skills Metrics) -->
+        <section class="hud-card">
+            <h3>Core System Resource Load</h3>
+            <div class="system-radar">
+                <div>Frontend Graphics Engine (95%)</div>
+                <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
+                
+                <div>Distributed Server Logic (88%)</div>
+                <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
+                
+                <div>Database Cluster Routing (75%)</div>
+                <div class="radar-bar"><div class="radar-fill" style="width: 75%"></div></div>
             </div>
         </section>
 
-        <!-- Block 4: Core Project Highlights Portfolio -->
-        <section class="card-block span-2">
-            <h3>Featured Projects</h3>
+        <!-- Structural Operations History (Projects) -->
+        <section class="hud-card span-2">
+            <h3>Operational Deployments [PROJECTS]</h3>
             
-            <div class="timeline-item">
-                <div class="item-title">E-Commerce Architecture Platform</div>
-                <div class="item-desc">Engineered a highly decoupled storefront stack utilizing modular server builds. Handled clean animation tracking and secure cart interaction parameters.</div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="item-title">Interactive Data Dashboard Engine</div>
-                <div class="item-desc">Created a custom visualization interface layout tracking performance diagnostics cleanly across flexible browser breakpoints.</div>
-            </div>
-        </section>
-
-    </main>
-</div>
-
-</body>
-</html>
+            <div class="stream-node">
+                <div class="node-header">Project Overlord // Decentralized Data Mesh</div>
