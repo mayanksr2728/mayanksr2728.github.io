@@ -18,6 +18,7 @@
             padding: 40px 20px;
             overflow-x: hidden;
             position: relative;
+            cursor: crosshair; /* Indicates interactivity */
         }
 
         /* 3D Canvas Layer */
@@ -28,23 +29,24 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none; /* Allows scrolling and clicks to pass through to content */
-            opacity: 0.85; /* Increased opacity so the DNA pops brilliantly */
+            pointer-events: auto; /* Must be auto to capture clicks */
+            opacity: 0.85;
         }
 
-        /* Glass HUD Blueprint Frame Layer - Made highly transparent */
+        /* Glass HUD Blueprint Frame Layer */
         .hud-wrapper {
             position: relative;
-            z-index: 2; /* Sits cleanly above the 3D canvas */
+            z-index: 2;
             max-width: 1200px;
             margin: 0 auto;
-            border: 1px solid rgba(168, 85, 247, 0.35); /* Soft Radiation Purple Border */
+            border: 1px solid rgba(168, 85, 247, 0.35);
             border-radius: 12px;
-            background: rgba(3, 5, 13, 0.35); /* Highly transparent void glass */
+            background: rgba(3, 5, 13, 0.35);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             padding: 35px;
             box-shadow: 0 0 50px rgba(168, 85, 247, 0.08), inset 0 0 25px rgba(16, 185, 129, 0.01);
+            pointer-events: none; /* Clicks pass through to canvas */
         }
 
         /* Terminal Boot Screen Header */
@@ -64,7 +66,7 @@
             background: #03050d;
             padding: 0 10px;
             font-size: 11px;
-            color: #c084fc; /* Radiation Purple Accent */
+            color: #c084fc;
             letter-spacing: 2px;
         }
         .matrix-title {
@@ -96,7 +98,7 @@
         .span-2 { grid-column: span 2; }
         @media (max-width: 900px) { .span-2, .span-3 { grid-column: span 1; } }
 
-        /* High Tech Submodule Cards - Heavily transparent to reveal background DNA */
+        /* High Tech Submodule Cards */
         .hud-card {
             background: rgba(10, 8, 20, 0.35);
             border: 1px solid rgba(168, 85, 247, 0.25);
@@ -231,7 +233,7 @@
         <!-- Header Terminal Banner -->
         <header class="terminal-header">
             <h1 class="matrix-title">RESEARCHER_ID: DR. ALEX MORGAN // RAD-BIO</h1>
-            <div class="typewriter-sub">Sequencing ionising radiation transcriptomics... System: ONLINE</div>
+            <div class="typewriter-sub">Click to Initiate Radiation Cascade... System: ONLINE</div>
         </header>
 
         <!-- Main Data Grid Dashboard -->
@@ -299,6 +301,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
     <script>
+        // --- Globals for Scattering Effect ---
+        let scatterParticles;
+        let scatterUniforms;
+        const SCATTER_DURATION = 3.0; // Seconds the debris remains visible
+        let isScattering = false;
+        let scatterStartTime = 0;
+
         // 1. Safe Off-Screen 2D Canvas Dot-Texture Generator
         function generateCircularParticleTexture() {
             const canvas = document.createElement('canvas');
@@ -406,15 +415,149 @@
         dnaStructure.position.x = 16; 
         scene.add(dnaStructure);
 
-        // 6. Animation Execution Processing Loop
+        // --- NEW: 6. Initialize Scattering Particle System ---
+        function initScatterSystem() {
+            const scatterCount = 1000; // Number of debris pieces
+            const scatterGeometry = new THREE.BufferGeometry();
+            const positions = [];
+            const velocities = [];
+            const timelines = []; // Controls individual particle timing
+
+            // Combine all helix positions to use as spawn points
+            const allHelixPoints = [...positionsA, ...positionsB];
+
+            for (let i = 0; i < scatterCount; i++) {
+                // Spawn near a random helix node
+                const randomIndex = Math.floor(Math.random() * (allHelixPoints.length / 3)) * 3;
+                positions.push(allHelixPoints[randomIndex], allHelixPoints[randomIndex + 1], allHelixPoints[randomIndex + 2]);
+
+                // Random outward velocity vector
+                const vx = (Math.random() - 0.5) * 15.0;
+                const vy = (Math.random() - 0.2) * 8.0; // Tendency to drift upwards/downwards
+                const vz = (Math.random() - 0.5) * 15.0;
+                velocities.push(vx, vy, vz);
+
+                // Randomize start delay for explosion
+                timelines.push(Math.random() * 1.5); 
+            }
+
+            scatterGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            scatterGeometry.setAttribute('velocity', new THREE.Float32BufferAttribute(velocities, 3));
+            scatterGeometry.setAttribute('timeline', new THREE.Float32BufferAttribute(timelines, 1));
+
+            // --- Custom Shader for Scattering Debris ---
+            scatterUniforms = {
+                time: { value: 0.0 },
+                colorA: { value: new THREE.Color(0x10b981) }, // Emerald
+                colorB: { value: new THREE.Color(0xa855f7) }, // Purple
+                textureMap: { value: safeDotTexture }
+            };
+
+            const scatterMaterial = new THREE.ShaderMaterial({
+                uniforms: scatterUniforms,
+                vertexShader: `
+                    attribute vec3 velocity;
+                    attribute float timeline;
+                    uniform float time;
+                    varying float vOpacity;
+
+                    void main() {
+                        // Calculate how much time has passed for this particle
+                        float activeTime = max(0.0, time - timeline);
+                        
+                        // Initial velocity explosion
+                        vec3 newPos = position + velocity * activeTime;
+                        
+                        // Add slight rotational drift based on time
+                        newPos.x += sin(activeTime * 2.0) * 0.5;
+                        newPos.y += cos(activeTime * 1.5) * 0.2;
+
+                        // Scale particle size based on how far it's scattered
+                        float dist = length(velocity * activeTime);
+                        gl_PointSize = 3.5 + sin(dist * 0.3) * 1.5;
+
+                        // Pass position to fragment shader
+                        vec4 mvPosition = modelViewMatrix * vec4(newPos, 1.0);
+                        gl_Position = projectionMatrix * mvPosition;
+
+                        // Fade out over time (after 70% of duration)
+                        vOpacity = 1.0 - smoothstep(0.7 * ${SCATTER_DURATION}.0, ${SCATTER_DURATION}.0, activeTime);
+                        
+                        // If animation duration is exceeded, make invisible
+                        if(activeTime > ${SCATTER_DURATION}.0) vOpacity = 0.0;
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 colorA;
+                    uniform vec3 colorB;
+                    uniform sampler2D textureMap;
+                    varying float vOpacity;
+
+                    void main() {
+                        // Mix the two radiation colors
+                        vec3 finalColor = mix(colorA, colorB, gl_PointCoord.x);
+                        
+                        // Apply the circular texture
+                        vec4 texColor = texture2D(textureMap, gl_PointCoord);
+                        
+                        if (vOpacity <= 0.0) discard; // Optimization: skip rendering if invisible
+
+                        gl_FragColor = vec4(finalColor, texColor.a * vOpacity);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            scatterParticles = new THREE.Points(scatterGeometry, scatterMaterial);
+            scatterParticles.frustumCulled = false; // Always render even if moving off-screen
+            scene.add(scatterParticles);
+        }
+        initScatterSystem();
+
+        // --- NEW: 7. Interaction Handler (Mouse Click) ---
+        window.addEventListener('mousedown', (event) => {
+            if (isScattering) return; // Prevent re-triggering during animation
+
+            isScattering = true;
+            scatterStartTime = Date.now();
+            scatterUniforms.time.value = 0.0; // Reset shader time
+
+            // Visually "flicker" the DNA strands slightly
+            materialA.opacity = 0.1;
+            materialB.opacity = 0.1;
+            setTimeout(() => {
+                materialA.opacity = 1.0;
+                materialB.opacity = 1.0;
+            }, 150);
+        });
+
+        // 8. Animation Execution Processing Loop
         function animate() {
             requestAnimationFrame(animate);
+            
+            // Smooth spatial axis rotations
             dnaStructure.rotation.y += 0.007;
             dnaStructure.position.y = Math.sin(Date.now() * 0.0008) * 2;
+
+            // --- NEW: 9. Update Scattering Simulation ---
+            if (isScattering) {
+                // Update the time uniform passed to the GPU shader
+                const elapsed = (Date.now() - scatterStartTime) / 1000.0;
+                scatterUniforms.time.value = elapsed;
+
+                // Stop animation when duration is complete
+                if (elapsed >= SCATTER_DURATION) {
+                    isScattering = false;
+                    scatterUniforms.time.value = 0.0;
+                }
+            }
+            
             renderer.render(scene, camera);
         }
 
-        // 7. Responsive Window Vector Recalibration Handler
+        // 10. Responsive Window Vector Recalibration Handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
