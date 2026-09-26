@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Computational Biology // Research Portfolio</title>
+    <title>Radiobiology Matrix // Bioinformatics Terminal</title>
     <style>
         /* Base Setup & Reset */
         * {
@@ -20,27 +20,34 @@
             position: relative;
         }
 
-        /* 3D Canvas Layer */
-        #canvas-container {
+        /* Canvas Layers */
+        #canvas-container-dna, #canvas-container-binary {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none; /* Allows scrolling and clicks to pass through */
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+        #canvas-container-dna.active-bg {
             opacity: 0.85;
+        }
+        #canvas-container-binary.active-bg {
+            opacity: 0.75;
         }
 
         /* Glass HUD Blueprint Frame Layer */
         .hud-wrapper {
             position: relative;
-            z-index: 2; /* Sits cleanly above the 3D canvas */
+            z-index: 2; /* Sits cleanly above the background layers */
             max-width: 1200px;
             margin: 0 auto;
             border: 1px solid rgba(168, 85, 247, 0.35); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(3, 5, 13, 0.35); /* Highly transparent void glass */
+            background: rgba(3, 5, 13, 0.45); /* Highly transparent void glass */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             padding: 35px;
@@ -140,7 +147,7 @@
 
         /* High Tech Submodule Cards */
         .hud-card {
-            background: rgba(10, 8, 20, 0.35);
+            background: rgba(10, 8, 20, 0.55);
             border: 1px solid rgba(168, 85, 247, 0.25);
             border-radius: 8px;
             padding: 25px;
@@ -151,7 +158,7 @@
         }
         .hud-card:hover {
             border-color: #a855f7;
-            background: rgba(14, 11, 26, 0.55);
+            background: rgba(14, 11, 26, 0.75);
             box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
             transform: translateY(-2px);
         }
@@ -181,7 +188,7 @@
         }
         .stream-node:last-child { margin-bottom: 0; border-left: 2px dashed transparent; }
         .stream-node::before {
-            content: "🧬";
+            content: "⚡";
             position: absolute;
             left: -9px;
             top: 0;
@@ -228,30 +235,6 @@
             text-shadow: 0 0 8px #10b981;
         }
 
-        /* Skills Metrics Bars */
-        .system-radar {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .radar-label {
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            margin-bottom: 5px;
-        }
-        .radar-bar {
-            background: rgba(255, 255, 255, 0.05);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-        .radar-fill {
-            background: linear-gradient(90deg, #10b981, #a855f7);
-            height: 100%;
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-        }
-
         /* Animations */
         @keyframes typing {
             from { width: 0 }
@@ -265,20 +248,23 @@
 </head>
 <body>
 
-    <!-- 3D Canvas Mounting Point -->
-    <div id="canvas-container"></div>
+    <!-- Canvas Containers -->
+    <div id="canvas-container-dna" class="active-bg"></div>
+    <div id="canvas-container-binary">
+        <canvas id="matrix-canvas"></canvas>
+    </div>
 
     <div class="hud-wrapper">
 
-        <!-- Terminal Navigation Bar (Clickable Pages) -->
+        <!-- Terminal Navigation Bar -->
         <nav class="terminal-nav">
             <button class="nav-btn active" onclick="switchView('home-view', this)">[01 // INTRODUCTION]</button>
             <button class="nav-btn" onclick="switchView('projects-view', this)">[02 // PROJECTS AND RESEARCH]</button>
-            <button class="nav-btn" onclick="switchView('contact-view', this)">[03 // EXPERIENCE]</button>
-            <button class="nav-btn" onclick="switchView('contact-view', this)">[04 // MOMENTO AND GRANTS]</button>
+            <button class="nav-btn" onclick="switchView('experience-view', this)">[03 // EXPERIENCE]</button>
+            <button class="nav-btn" onclick="switchView('grants-view', this)">[04 // MOMENTO AND GRANTS]</button>
         </nav>
 
-        <!-- PAGE 1: HOME VIEW -->
+        <!-- PAGE 1: INTRODUCTION (Shows DNA background) -->
         <div id="home-view" class="page-view active-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">MAYANK SINGH // JSS UNIVERSITY // UNIVERSITY OF EDINBURGH</h1>
@@ -295,20 +281,10 @@
 
                 <section class="hud-card span-2">
                     <h3>Research Deployments [EXPERIENCE]</h3>
-                     <div class="stream-node">
-                        <div class="node-meta">NODE_01 // Researcher // 2026 - PRESENT</div>
+                    <div class="stream-node">
+                        <div class="node-meta">NODE_01 // RESEARCH // 2026 - PRESENT</div>
                         <div class="node-header">Bioinformatics Research and Development Working Group 5 @ International Parkinson's and Movement Disorder Society</div>
-                        <div class="node-data">Coordinating with the research wings and contribute to the active ongoing research projects of MDS along with 252 member cohort.</div>
-                    </div>
-                    <div class="stream-node">
-                        <div class="node-meta">NODE_02 // MULTI-OMICS PIPELINE // 2024 - PRESENT</div>
-                        <div class="node-header">Lead Bioinformatics Researcher @ Institute for Radiation Oncology</div>
-                        <div class="node-data">Developed custom Next-Generation Sequencing (NGS) variants processing pipelines to profile transcriptomic shifts post-hadron therapy. Accelerated multi-modal data processing workflows by 38% across massive genomic databases.</div>
-                    </div>
-                    <div class="stream-node">
-                        <div class="node-meta">NODE_03 // AD-Hoc Reviewer // 2025 - 2026</div>
-                        <div class="node-header">Article Reviewer and Mo.Editorial Board @ AlQalam Journal of Medical Science</div>
-                        <div class="node-data">Reviewed 30+ articles and manuscripts for the journal and developed processing protocols and adaptations according to the journal's requirements.</div>
+                        <div class="node-data">Coordinating with the research wings and contributing to the active ongoing research projects of MDS along with 252 member cohort.</div>
                     </div>
                 </section>
 
@@ -318,180 +294,104 @@
                         <div class="chip-badge">R // Bioconductor</div>
                         <div class="chip-badge">Python (SciPy/Scikit)</div>
                         <div class="chip-badge">Nextflow Pipelines</div>
-                        <div class="chip-badge">RNA-Seq / ATAC-Seq</div>
-                        <div class="chip-badge">Monte Carlo (Geant4)</div>
-                        <div class="chip-badge">Linux High-Perf Compute</div>
-                        <div class="chip-badge">Docker Containers</div>
-                        <div class="chip-badge">Variant Calling (GATK)</div>
-                    </div>
-                </section>
-
-                <section class="hud-card span-3">
-                    <h3>Algorithmic Domain Load</h3>
-                    <div class="system-radar">
-                        <div>
-                            <div class="radar-label">Transcriptomics & NGS Processing (95%)</div>
-                            <div class="radar-bar"><div class="radar-fill" style="width: 95%"></div></div>
-                        </div>
-                        <div>
-                            <div class="radar-label">Radiation Kinetic Modeling (88%)</div>
-                            <div class="radar-bar"><div class="radar-fill" style="width: 88%"></div></div>
-                        </div>
-                        <div>
-                            <div class="radar-label">Statistical Machine Learning (78%)</div>
-                            <div class="radar-bar"><div class="radar-fill" style="width: 78%"></div></div>
-                        </div>
-                        <div>
-                            <div class="radar-label">Data Curation and Literature Review (90%)</div>
-                            <div class="radar-bar"><div class="radar-fill" style="width: 90%"></div></div>
-                        <div>
-                            <div class="radar-label">Theoritical Radiophysics and Environmental Radiaeffects(60%)</div>
-                            <div class="radar-bar"><div class="radar-fill" style="width: 60%"></div></div>
-                        </div>
-                        </div>
                     </div>
                 </section>
             </main>
         </div>
 
-        <!-- PAGE 2: PROJECTS VIEW -->
+        <!-- PAGE 2: PROJECTS AND RESEARCH (Shows Binary Rain background) -->
         <div id="projects-view" class="page-view">
             <header class="terminal-header">
-                <h1 class="matrix-title">ACTIVE_REPOSITORIES // PIPELINES</h1>
+                <h1 class="matrix-title">PROJECTS AND RESEARCH</h1>
                 <div class="typewriter-sub">Querying active bioinformatics codebases... Status: SECURE</div>
             </header>
-
             <main class="matrix-grid">
                 <section class="hud-card span-3">
-                    <h3>Rad-Transcriptomics Pipeline V4</h3>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
-                        An automated Nextflow workflow designed for high-throughput analysis of radiation-induced differential gene expression profiles across diverse human cell lines.
-                    </p>
-                    <div class="chip-stack">
-                        <div class="chip-badge">Nextflow</div>
-                        <div class="chip-badge">Docker</div>
-                        <div class="chip-badge">GitHub Actions</div>
-                    </div>
-                </section>
-
-                 <section class="hud-card span-3">
-                    <h3>Computational Pipeline Dev-Radbiology, MIT UNDERGRADUATE CONFERENCE 2026</h3>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
-                        Identified set of p53 dependent gene following the acute radiation response, got accepted in IEEE MIT URTC 2026
-                    </p>
-                    <div class="chip-stack">
-                        <div class="chip-badge">Nextflow</div>
-                        <div class="chip-badge">Docker</div>
-                        <div class="chip-badge">GitHub Actions</div>
-                    </div>
-                </section>
-
-                
-                <section class="hud-card span-3">
-                    <h3>Monte Carlo DSB Tracker</h3>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 15px;">
-                        Simulation utility tracking track-structure interactions and spatial cluster complexities for proton and carbon ion radiotherapy applications.
-                    </p>
-                    <div class="chip-stack">
-                        <div class="chip-badge">C++ / Geant4</div>
-                        <div class="chip-badge">Python wrappers</div>
-                    </div>
+                    <h3>Active Research Repositories</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Multi-omics pipelines and computational biology frameworks running under cryptographic protocols.</p>
                 </section>
             </main>
         </div>
 
-        <!-- PAGE 3: CONTACT VIEW -->
-        <div id="contact-view" class="page-view">
+        <!-- PAGE 3: EXPERIENCE -->
+        <div id="experience-view" class="page-view">
             <header class="terminal-header">
-                <h1 class="matrix-title">SECURE_TRANSMISSION // CHANNEL</h1>
-                <div class="typewriter-sub">Establish encrypted handshake... Ready for input</div>
+                <h1 class="matrix-title">EXPERIENCE LOGS</h1>
+                <div class="typewriter-sub">Accessing professional deployment history... Status: SECURE</div>
             </header>
-
             <main class="matrix-grid">
                 <section class="hud-card span-3">
-                    <h3>Direct Communications Matrix</h3>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-                        To initiate secure correspondence regarding radiobiology collaboration or research data exchange, route inquiries through standard channels:
-                    </p>
-                    <div class="chip-stack">
-                        <div class="chip-badge">EMAIL: morgan.radbio@institute.org</div>
-                        <div class="chip-badge">GITHUB: github.com/alexmorgan-radbio</div>
-                        <div class="chip-badge">ORCID: 0000-0002-1829-XXXX</div>
-                    </div>
+                    <h3>Professional Timeline</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Details of working groups, fellowships, and academic contributions.</p>
+                </section>
+            </main>
+        </div>
+
+        <!-- PAGE 4: MOMENTO AND GRANTS -->
+        <div id="grants-view" class="page-view">
+            <header class="terminal-header">
+                <h1 class="matrix-title">MOMENTO AND GRANTS</h1>
+                <div class="typewriter-sub">Retrieving funding and fellowship metadata... Status: SECURE</div>
+            </header>
+            <main class="matrix-grid">
+                <section class="hud-card span-3">
+                    <h3>Fellowships & Memberships</h3>
+                    <p style="color: #cbd5e1; font-size: 0.95rem;">Royal Microscopical Society Student Fellowship, ESMO memberships, and more.</p>
                 </section>
             </main>
         </div>
 
     </div>
 
-
-          <!-- PAGE 3: CONTACT VIEW -->
-        <div id="contact-view" class="page-view">
-            <header class="terminal-header">
-                <h1 class="matrix-title">SECURE_TRANSMISSION // CHANNEL</h1>
-                <div class="typewriter-sub">Establish encrypted handshake... Ready for input</div>
-            </header>
-
-            <main class="matrix-grid">
-                <section class="hud-card span-3">
-                    <h3>Direct Communications Matrix</h3>
-                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-                        To initiate secure correspondence regarding radiobiology collaboration or research data exchange, route inquiries through standard channels:
-                    </p>
-                    <div class="chip-stack">
-                        <div class="chip-badge">EMAIL: mayanksr2728@gmail.com</div>
-                        <div class="chip-badge">EMAIL: mayanksingh@my.uopeople.edu</div>
-                        <div class="chip-badge">GITHUB: github.com/mayanksr2728</div>
-                        <div class="chip-badge">ORCID: 0000-000X-XXXX-XXXX</div>
-                    </div>
-                </section>
-            </main>
-        </div>
-
-    </div>
-
-    
-    <!-- Include Three.js Library from CDN -->
+    <!-- Include Three.js for DNA Rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
+
     <script>
-        // View Switcher Script
+        // View Switcher Script with Dynamic Background Logic
         function switchView(viewId, element) {
-            // Hide all views
             const views = document.querySelectorAll('.page-view');
             views.forEach(v => v.classList.remove('active-view'));
 
-            // Show target view
             document.getElementById(viewId).classList.add('active-view');
 
-            // Update active button styling
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(b => b.classList.remove('active'));
             element.classList.add('active');
+
+            const dnaContainer = document.getElementById('canvas-container-dna');
+            const binaryContainer = document.getElementById('canvas-container-binary');
+
+            // Manage background visibility per section
+            if (viewId === 'home-view') {
+                dnaContainer.classList.add('active-bg');
+                binaryContainer.classList.remove('active-bg');
+            } else if (viewId === 'projects-view') {
+                dnaContainer.classList.remove('active-bg');
+                binaryContainer.classList.add('active-bg');
+            } else {
+                dnaContainer.classList.remove('active-bg');
+                binaryContainer.classList.remove('active-bg');
+            }
         }
 
-        // 1. Safe Off-Screen 2D Canvas Dot-Texture Generator
+        // --- 1. Three.js DNA Fragment Setup ---
         function generateCircularParticleTexture() {
             const canvas = document.createElement('canvas');
             canvas.width = 32;
             canvas.height = 32;
             const ctx = canvas.getContext('2d');
-            
             const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
             gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
             gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.8)');
             gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-            
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, 32, 32);
-            
             const texture = new THREE.CanvasTexture(canvas);
             texture.colorSpace = THREE.SRGBColorSpace;
             return texture;
         }
 
-        // 2. Initialise 3D Scene Properties
-        const container = document.getElementById('canvas-container');
+        const dnaContainerElem = document.getElementById('canvas-container-dna');
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 45;
@@ -499,9 +399,8 @@
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
+        dnaContainerElem.appendChild(renderer.domElement);
 
-        // 3. Generate Mathematical Helix Nodes Arrays
         const pairCount = 75;
         const curveRadius = 8.5;
         const helixLength = 65;
@@ -535,35 +434,11 @@
         strandB_Geometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsB, 3));
         rungsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positionsRungs, 3));
 
-        // 4. Mount Custom Native Canvas Textures into Particle Engines
         const safeDotTexture = generateCircularParticleTexture();
+        const materialA = new THREE.PointsMaterial({ color: 0x10b981, size: 1.8, map: safeDotTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+        const materialB = new THREE.PointsMaterial({ color: 0xa855f7, size: 1.8, map: safeDotTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
+        const rungsMaterial = new THREE.LineBasicMaterial({ color: 0x4b5563, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending });
 
-        const materialA = new THREE.PointsMaterial({
-            color: 0x10b981,
-            size: 1.8,
-            map: safeDotTexture,
-            transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        const materialB = new THREE.PointsMaterial({
-            color: 0xa855f7,
-            size: 1.8,
-            map: safeDotTexture,
-            transparent: true,
-            blending: THREE.AdditiveBlending,
-            depthWrite: false
-        });
-
-        const rungsMaterial = new THREE.LineBasicMaterial({
-            color: 0x4b5563,
-            transparent: true,
-            opacity: 0.35,
-            blending: THREE.AdditiveBlending
-        });
-
-        // 5. Build and Position Composite Assembly System
         const pointsStrandA = new THREE.Points(strandA_Geometry, materialA);
         const pointsStrandB = new THREE.Points(strandB_Geometry, materialB);
         const lineRungs = new THREE.LineSegments(rungsGeometry, rungsMaterial);
@@ -572,24 +447,61 @@
         dnaStructure.add(pointsStrandA);
         dnaStructure.add(pointsStrandB);
         dnaStructure.add(lineRungs);
-
         dnaStructure.rotation.z = 0.35;
-        dnaStructure.position.x = 16; 
+        dnaStructure.position.x = 16;
         scene.add(dnaStructure);
 
-        // 6. Animation Execution Processing Loop
-        function animate() {
-            requestAnimationFrame(animate);
+        function animateDNA() {
+            requestAnimationFrame(animateDNA);
             dnaStructure.rotation.y += 0.007;
             dnaStructure.position.y = Math.sin(Date.now() * 0.0008) * 2;
             renderer.render(scene, camera);
         }
+        animateDNA();
 
-        // 7. Responsive Window Vector Recalibration Handler
+        // --- 2. Matrix Binary Rain Effect Setup ---
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const ctx = matrixCanvas.getContext('2d');
+
+        function resizeBinaryCanvas() {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+        }
+        resizeBinaryCanvas();
+
+        const characters = "0101010101010101010101010101010101010101ABCDEFXYZ<>//\\{}[]";
+        const fontSize = 14;
+        let columns = matrixCanvas.width / fontSize;
+        let drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrixRain() {
+            ctx.fillStyle = 'rgba(3, 5, 13, 0.12)';
+            ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            ctx.fillStyle = '#10b981';
+            ctx.font = fontSize + 'px "Courier New", monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = characters.charAt(Math.floor(Math.random() * characters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrixRain, 33);
+
+        // Global Resize Handler
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+            resizeBinaryCanvas();
             
             if (window.innerWidth < 950) {
                 dnaStructure.position.x = 0;
@@ -601,8 +513,6 @@
         if (window.innerWidth < 950) {
             dnaStructure.position.x = 0;
         }
-
-        animate();
     </script>
 </body>
 </html>
