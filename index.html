@@ -21,7 +21,7 @@
         }
 
         /* Canvas Layers */
-        #canvas-container-dna, #canvas-container-binary {
+        #canvas-container-dna, #canvas-container-binary, #canvas-container-atgc {
             position: fixed;
             top: 0;
             left: 0;
@@ -37,6 +37,9 @@
         }
         #canvas-container-binary.active-bg {
             opacity: 0.75;
+        }
+        #canvas-container-atgc.active-bg {
+            opacity: 0.80;
         }
 
         /* Glass HUD Blueprint Frame Layer */
@@ -253,6 +256,9 @@
     <div id="canvas-container-binary">
         <canvas id="matrix-canvas"></canvas>
     </div>
+    <div id="canvas-container-atgc">
+        <canvas id="atgc-canvas"></canvas>
+    </div>
 
     <div class="hud-wrapper">
 
@@ -264,7 +270,7 @@
             <button class="nav-btn" onclick="switchView('grants-view', this)">[04 // MOMENTO AND GRANTS]</button>
         </nav>
 
-        <!-- PAGE 1: INTRODUCTION (Shows DNA background) -->
+        <!-- PAGE 1: INTRODUCTION -->
         <div id="home-view" class="page-view active-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">MAYANK SINGH // JSS UNIVERSITY // UNIVERSITY OF EDINBURGH</h1>
@@ -299,7 +305,7 @@
             </main>
         </div>
 
-        <!-- PAGE 2: PROJECTS AND RESEARCH (Shows Binary Rain background) -->
+        <!-- PAGE 2: PROJECTS AND RESEARCH -->
         <div id="projects-view" class="page-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">PROJECTS AND RESEARCH</h1>
@@ -313,7 +319,7 @@
             </main>
         </div>
 
-        <!-- PAGE 3: EXPERIENCE -->
+        <!-- PAGE 3: EXPERIENCE (Shows Left-to-Right ATGC / AMRITA background) -->
         <div id="experience-view" class="page-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">EXPERIENCE LOGS</h1>
@@ -347,7 +353,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <script>
-        // View Switcher Script with Dynamic Background Logic
+        // View Switcher Script with Multi-Background Handler
         function switchView(viewId, element) {
             const views = document.querySelectorAll('.page-view');
             views.forEach(v => v.classList.remove('active-view'));
@@ -360,17 +366,19 @@
 
             const dnaContainer = document.getElementById('canvas-container-dna');
             const binaryContainer = document.getElementById('canvas-container-binary');
+            const atgcContainer = document.getElementById('canvas-container-atgc');
 
             // Manage background visibility per section
+            dnaContainer.classList.remove('active-bg');
+            binaryContainer.classList.remove('active-bg');
+            atgcContainer.classList.remove('active-bg');
+
             if (viewId === 'home-view') {
                 dnaContainer.classList.add('active-bg');
-                binaryContainer.classList.remove('active-bg');
             } else if (viewId === 'projects-view') {
-                dnaContainer.classList.remove('active-bg');
                 binaryContainer.classList.add('active-bg');
-            } else {
-                dnaContainer.classList.remove('active-bg');
-                binaryContainer.classList.remove('active-bg');
+            } else if (viewId === 'experience-view') {
+                atgcContainer.classList.add('active-bg');
             }
         }
 
@@ -461,7 +469,7 @@
 
         // --- 2. Matrix Binary Rain Effect Setup ---
         const matrixCanvas = document.getElementById('matrix-canvas');
-        const ctx = matrixCanvas.getContext('2d');
+        const ctxBinary = matrixCanvas.getContext('2d');
 
         function resizeBinaryCanvas() {
             matrixCanvas.width = window.innerWidth;
@@ -469,32 +477,87 @@
         }
         resizeBinaryCanvas();
 
-        const characters = "0101010101010101010101010101010101010101ABCDEFXYZ<>//\\{}[]";
-        const fontSize = 14;
-        let columns = matrixCanvas.width / fontSize;
-        let drops = [];
-        for (let i = 0; i < columns; i++) {
-            drops[i] = 1;
+        const binaryChars = "0101010101010101010101010101010101010101ABCDEFXYZ<>//\\{}[]";
+        const fontSizeBinary = 14;
+        let binaryColumns = matrixCanvas.width / fontSizeBinary;
+        let binaryDrops = [];
+        for (let i = 0; i < binaryColumns; i++) {
+            binaryDrops[i] = 1;
         }
 
         function drawMatrixRain() {
-            ctx.fillStyle = 'rgba(3, 5, 13, 0.12)';
-            ctx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            ctxBinary.fillStyle = 'rgba(3, 5, 13, 0.12)';
+            ctxBinary.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
-            ctx.fillStyle = '#10b981';
-            ctx.font = fontSize + 'px "Courier New", monospace';
+            ctxBinary.fillStyle = '#10b981';
+            ctxBinary.font = fontSizeBinary + 'px "Courier New", monospace';
 
-            for (let i = 0; i < drops.length; i++) {
-                const text = characters.charAt(Math.floor(Math.random() * characters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            for (let i = 0; i < binaryDrops.length; i++) {
+                const text = binaryChars.charAt(Math.floor(Math.random() * binaryChars.length));
+                ctxBinary.fillText(text, i * fontSizeBinary, binaryDrops[i] * fontSizeBinary);
 
-                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+                if (binaryDrops[i] * fontSizeBinary > matrixCanvas.height && Math.random() > 0.975) {
+                    binaryDrops[i] = 0;
                 }
-                drops[i]++;
+                binaryDrops[i]++;
             }
         }
         setInterval(drawMatrixRain, 33);
+
+        // --- 3. Horizontal Left-to-Right ATGC & AMRITA Animation Setup ---
+        const atgcCanvas = document.getElementById('atgc-canvas');
+        const ctxAtgc = atgcCanvas.getContext('2d');
+
+        function resizeAtgcCanvas() {
+            atgcCanvas.width = window.innerWidth;
+            atgcCanvas.height = window.innerHeight;
+        }
+        resizeAtgcCanvas();
+
+        const atgcFontSize = 15;
+        let atgcRows = Math.floor(atgcCanvas.height / (atgcFontSize * 1.8));
+        
+        // Setup row items tracking horizontal coordinates (X)
+        let rowData = [];
+        const patternText = "ATGCATGCAMRITAATGCATGC";
+        
+        function initAtgcRows() {
+            atgcRows = Math.floor(atgcCanvas.height / (atgcFontSize * 1.8));
+            rowData = [];
+            for (let i = 0; i < atgcRows; i++) {
+                rowData.push({
+                    x: (Math.random() * -atgcCanvas.width) - 50, // Staggered start positions
+                    y: (i * atgcFontSize * 1.8) + 30,
+                    speed: 1.2 + Math.random() * 2.2 // Horizontal travel speed
+                });
+            }
+        }
+        initAtgcRows();
+
+        function drawAtgcStream() {
+            ctxAtgc.fillStyle = 'rgba(3, 5, 13, 0.15)';
+            ctxAtgc.fillRect(0, 0, atgcCanvas.width, atgcCanvas.height);
+
+            ctxAtgc.font = 'bold ' + atgcFontSize + 'px "Courier New", monospace';
+
+            for (let i = 0; i < rowData.length; i++) {
+                let row = rowData[i];
+                
+                // Color configuration: Highlight AMRITA sequence elements or give them a purple aura
+                ctxAtgc.fillStyle = '#34d399'; // Emerald Green strand tone
+                ctxAtgc.fillText(patternText, row.x, row.y);
+
+                // Move row from left to right
+                row.x += row.speed;
+
+                // Reset position smoothly when scrolled past the right side of the window
+                if (row.x > atgcCanvas.width) {
+                    row.x = -600;
+                    row.speed = 1.2 + Math.random() * 2.2;
+                }
+            }
+        }
+        setInterval(drawAtgcStream, 30);
 
         // Global Resize Handler
         window.addEventListener('resize', () => {
@@ -502,6 +565,8 @@
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
             resizeBinaryCanvas();
+            resizeAtgcCanvas();
+            initAtgcRows();
             
             if (window.innerWidth < 950) {
                 dnaStructure.position.x = 0;
