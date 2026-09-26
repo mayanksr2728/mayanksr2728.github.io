@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mayank Singh - Digital Portfolio // </title>
+    <title>Radiobiology Matrix // Bioinformatics Terminal</title>
     <style>
         /* Base Setup & Reset */
         * {
@@ -21,7 +21,7 @@
         }
 
         /* Canvas Layers */
-        #canvas-container-dna, #canvas-container-binary, #canvas-container-atgc {
+        #canvas-container-dna, #canvas-container-binary, #canvas-container-atgc, #canvas-container-bacteria {
             position: fixed;
             top: 0;
             left: 0;
@@ -32,14 +32,11 @@
             opacity: 0;
             transition: opacity 0.4s ease-in-out;
         }
-        #canvas-container-dna.active-bg {
+        #canvas-container-dna.active-bg,
+        #canvas-container-binary.active-bg,
+        #canvas-container-atgc.active-bg,
+        #canvas-container-bacteria.active-bg {
             opacity: 0.85;
-        }
-        #canvas-container-binary.active-bg {
-            opacity: 0.75;
-        }
-        #canvas-container-atgc.active-bg {
-            opacity: 0.95; /* High visibility */
         }
 
         /* Glass HUD Blueprint Frame Layer */
@@ -50,7 +47,7 @@
             margin: 0 auto;
             border: 1px solid rgba(168, 85, 247, 0.35); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(3, 5, 13, 0.65); /* Slightly darker backing for better contrast */
+            background: rgba(3, 5, 13, 0.65); /* Dark backing for contrast */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             padding: 35px;
@@ -259,6 +256,9 @@
     <div id="canvas-container-atgc">
         <canvas id="atgc-canvas"></canvas>
     </div>
+    <div id="canvas-container-bacteria">
+        <canvas id="bacteria-canvas"></canvas>
+    </div>
 
     <div class="hud-wrapper">
 
@@ -281,7 +281,7 @@
                 <section class="hud-card span-3">
                     <h3>Research Objective & Core Focus</h3>
                     <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;">
-                       Mayank Singh is a computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
+                        Computational radiobiology researcher pioneering multi-omics frameworks to decode radiation-induced DNA damage tracks. Building predictive algorithmic pipelines mapping double-strand breaks (DSBs), spatial dose fractionation dynamics, and radioresistance mutations in cellular matrices.
                     </p>
                 </section>
 
@@ -333,7 +333,7 @@
             </main>
         </div>
 
-        <!-- PAGE 4: MOMENTO AND GRANTS -->
+        <!-- PAGE 4: MOMENTO AND GRANTS (Shows Bacterial Fission background) -->
         <div id="grants-view" class="page-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">MOMENTO AND GRANTS</h1>
@@ -367,10 +367,12 @@
             const dnaContainer = document.getElementById('canvas-container-dna');
             const binaryContainer = document.getElementById('canvas-container-binary');
             const atgcContainer = document.getElementById('canvas-container-atgc');
+            const bacteriaContainer = document.getElementById('canvas-container-bacteria');
 
             dnaContainer.classList.remove('active-bg');
             binaryContainer.classList.remove('active-bg');
             atgcContainer.classList.remove('active-bg');
+            bacteriaContainer.classList.remove('active-bg');
 
             if (viewId === 'home-view') {
                 dnaContainer.classList.add('active-bg');
@@ -378,6 +380,8 @@
                 binaryContainer.classList.add('active-bg');
             } else if (viewId === 'experience-view') {
                 atgcContainer.classList.add('active-bg');
+            } else if (viewId === 'grants-view') {
+                bacteriaContainer.classList.add('active-bg');
             }
         }
 
@@ -498,12 +502,12 @@
                 if (binaryDrops[i] * fontSizeBinary > matrixCanvas.height && Math.random() > 0.975) {
                     binaryDrops[i] = 0;
                 }
-                binaryDrops[i]++;
+                    binaryDrops[i]++;
             }
         }
         setInterval(drawMatrixRain, 33);
 
-        // --- 3. Crisp Horizontal Left-to-Right ATGC & AMRITA Animation ---
+        // --- 3. ATGC & AMRITA Animation Setup ---
         const atgcCanvas = document.getElementById('atgc-canvas');
         const ctxAtgc = atgcCanvas.getContext('2d');
 
@@ -531,32 +535,119 @@
         initAtgcRows();
 
         function drawAtgcStream() {
-            // Clean trail clearing for absolute sharpness (no heavy blur artifacts)
             ctxAtgc.fillStyle = 'rgba(3, 5, 13, 0.25)';
             ctxAtgc.fillRect(0, 0, atgcCanvas.width, atgcCanvas.height);
 
-            // Use high-visibility font rendering settings
             ctxAtgc.font = 'bold ' + atgcFontSize + 'px "Courier New", monospace';
             ctxAtgc.shadowBlur = 8;
             ctxAtgc.shadowColor = '#10b981';
 
             for (let i = 0; i < rowData.length; i++) {
                 let row = rowData[i];
-                
-                ctxAtgc.fillStyle = '#38ef7d'; // Crisp high-contrast neon green
+                ctxAtgc.fillStyle = '#38ef7d';
                 ctxAtgc.fillText(patternText, row.x, row.y);
-
                 row.x += row.speed;
-
                 if (row.x > atgcCanvas.width) {
                     row.x = -800;
                     row.speed = 1.5 + Math.random() * 1.5;
                 }
             }
-            // Reset shadow to default so it doesn't affect other things
             ctxAtgc.shadowBlur = 0;
         }
         setInterval(drawAtgcStream, 30);
+
+        // --- 4. Bacterial Fission & Multiple Bacteria Animation Setup ---
+        const bacteriaCanvas = document.getElementById('bacteria-canvas');
+        const ctxBacteria = bacteriaCanvas.getContext('2d');
+
+        function resizeBacteriaCanvas() {
+            bacteriaCanvas.width = window.innerWidth;
+            bacteriaCanvas.height = window.innerHeight;
+        }
+        resizeBacteriaCanvas();
+
+        let bacteriaList = [];
+        const maxBacteria = 18;
+
+        function initBacteria() {
+            bacteriaList = [];
+            for (let i = 0; i < maxBacteria; i++) {
+                bacteriaList.push({
+                    x: Math.random() * bacteriaCanvas.width,
+                    y: Math.random() * bacteriaCanvas.height,
+                    vx: (Math.random() - 0.5) * 1.2,
+                    vy: (Math.random() - 0.5) * 1.2,
+                    radius: 18 + Math.random() * 25,
+                    fissionPhase: Math.random() * Math.PI * 2,
+                    fissionSpeed: 0.01 + Math.random() * 0.02,
+                    colorType: Math.random() > 0.4 ? '#10b981' : '#a855f7'
+                });
+            }
+        }
+        initBacteria();
+
+        function drawBacteriaFission() {
+            ctxBacteria.fillStyle = 'rgba(3, 5, 13, 0.2)';
+            ctxBacteria.fillRect(0, 0, bacteriaCanvas.width, bacteriaCanvas.height);
+
+            for (let i = 0; i < bacteriaList.length; i++) {
+                let b = bacteriaList[i];
+
+                // Update position
+                b.x += b.vx;
+                b.y += b.vy;
+
+                // Screen boundaries bounce
+                if (b.x < 50 || b.x > bacteriaCanvas.width - 50) b.vx *= -1;
+                if (b.y < 50 || b.y > bacteriaCanvas.height - 50) b.vy *= -1;
+
+                // Fission animation cycle (pinching effect via sine wave)
+                b.fissionPhase += b.fissionSpeed;
+                let pinch = Math.sin(b.fissionPhase); // Ranges from -1 to 1
+
+                ctxBacteria.save();
+                ctxBacteria.translate(b.x, b.y);
+
+                // Draw bacterial capsule or splitting cells
+                ctxBacteria.strokeStyle = b.colorType;
+                ctxBacteria.fillStyle = b.colorType === '#10b981' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(168, 85, 247, 0.15)';
+                ctxBacteria.lineWidth = 2;
+                ctxBacteria.shadowBlur = 12;
+                ctxBacteria.shadowColor = b.colorType;
+
+                if (pinch > 0.5) {
+                    // Division stage: Two distinct dividing daughter cells
+                    ctxBacteria.beginPath();
+                    ctxBacteria.arc(-b.radius * 0.6, 0, b.radius * 0.6, 0, Math.PI * 2);
+                    ctxBacteria.arc(b.radius * 0.6, 0, b.radius * 0.6, 0, Math.PI * 2);
+                    ctxBacteria.fill();
+                    ctxBacteria.stroke();
+
+                    // Inner nucleoid particles
+                    ctxBacteria.fillStyle = '#ffffff';
+                    ctxBacteria.beginPath();
+                    ctxBacteria.arc(-b.radius * 0.6, 0, 3, 0, Math.PI * 2);
+                    ctxBacteria.arc(b.radius * 0.6, 0, 3, 0, Math.PI * 2);
+                    ctxBacteria.fill();
+                } else {
+                    // Standard elongated rod-like or pill bacterium shape
+                    ctxBacteria.beginPath();
+                    ctxBacteria.ellipse(0, 0, b.radius, b.radius * 0.55, 0, 0, Math.PI * 2);
+                    ctxBacteria.fill();
+                    ctxBacteria.stroke();
+
+                    // Inner chromatin/plasmid loop
+                    ctxBacteria.strokeStyle = '#ffffff';
+                    ctxBacteria.lineWidth = 1;
+                    ctxBacteria.beginPath();
+                    ctxBacteria.arc(0, 0, b.radius * 0.25, 0, Math.PI);
+                    ctxBacteria.stroke();
+                }
+
+                ctxBacteria.restore();
+            }
+        }
+        setInterval(drawBacteriaFission, 33);
 
         // Global Resize Handler
         window.addEventListener('resize', () => {
@@ -566,6 +657,8 @@
             resizeBinaryCanvas();
             resizeAtgcCanvas();
             initAtgcRows();
+            resizeBacteriaCanvas();
+            initBacteria();
             
             if (window.innerWidth < 950) {
                 dnaStructure.position.x = 0;
