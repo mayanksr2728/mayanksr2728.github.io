@@ -39,7 +39,7 @@
             opacity: 0.75;
         }
         #canvas-container-atgc.active-bg {
-            opacity: 0.80;
+            opacity: 0.95; /* High visibility */
         }
 
         /* Glass HUD Blueprint Frame Layer */
@@ -50,7 +50,7 @@
             margin: 0 auto;
             border: 1px solid rgba(168, 85, 247, 0.35); /* Soft Radiation Purple Border */
             border-radius: 12px;
-            background: rgba(3, 5, 13, 0.45); /* Highly transparent void glass */
+            background: rgba(3, 5, 13, 0.65); /* Slightly darker backing for better contrast */
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             padding: 35px;
@@ -101,7 +101,7 @@
 
         /* Terminal Boot Screen Header */
         .terminal-header {
-            background: rgba(6, 8, 16, 0.4);
+            background: rgba(6, 8, 16, 0.6);
             border: 1px solid rgba(168, 85, 247, 0.35);
             padding: 25px;
             border-radius: 8px;
@@ -150,7 +150,7 @@
 
         /* High Tech Submodule Cards */
         .hud-card {
-            background: rgba(10, 8, 20, 0.55);
+            background: rgba(10, 8, 20, 0.75);
             border: 1px solid rgba(168, 85, 247, 0.25);
             border-radius: 8px;
             padding: 25px;
@@ -161,7 +161,7 @@
         }
         .hud-card:hover {
             border-color: #a855f7;
-            background: rgba(14, 11, 26, 0.75);
+            background: rgba(14, 11, 26, 0.85);
             box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
             transform: translateY(-2px);
         }
@@ -319,7 +319,7 @@
             </main>
         </div>
 
-        <!-- PAGE 3: EXPERIENCE (Shows Left-to-Right ATGC / AMRITA background) -->
+        <!-- PAGE 3: EXPERIENCE -->
         <div id="experience-view" class="page-view">
             <header class="terminal-header">
                 <h1 class="matrix-title">EXPERIENCE LOGS</h1>
@@ -368,7 +368,6 @@
             const binaryContainer = document.getElementById('canvas-container-binary');
             const atgcContainer = document.getElementById('canvas-container-atgc');
 
-            // Manage background visibility per section
             dnaContainer.classList.remove('active-bg');
             binaryContainer.classList.remove('active-bg');
             atgcContainer.classList.remove('active-bg');
@@ -504,7 +503,7 @@
         }
         setInterval(drawMatrixRain, 33);
 
-        // --- 3. Horizontal Left-to-Right ATGC & AMRITA Animation Setup ---
+        // --- 3. Crisp Horizontal Left-to-Right ATGC & AMRITA Animation ---
         const atgcCanvas = document.getElementById('atgc-canvas');
         const ctxAtgc = atgcCanvas.getContext('2d');
 
@@ -514,48 +513,48 @@
         }
         resizeAtgcCanvas();
 
-        const atgcFontSize = 15;
-        let atgcRows = Math.floor(atgcCanvas.height / (atgcFontSize * 1.8));
-        
-        // Setup row items tracking horizontal coordinates (X)
+        const atgcFontSize = 16;
         let rowData = [];
-        const patternText = "ATGCATGCAMRITAATGCATGC";
+        const patternText = "ATGCATGCATGC -- [ AMRITA ] -- ATGCATGCATGC";
         
         function initAtgcRows() {
-            atgcRows = Math.floor(atgcCanvas.height / (atgcFontSize * 1.8));
+            let atgcRows = Math.floor(atgcCanvas.height / (atgcFontSize * 2.2));
             rowData = [];
             for (let i = 0; i < atgcRows; i++) {
                 rowData.push({
-                    x: (Math.random() * -atgcCanvas.width) - 50, // Staggered start positions
-                    y: (i * atgcFontSize * 1.8) + 30,
-                    speed: 1.2 + Math.random() * 2.2 // Horizontal travel speed
+                    x: (Math.random() * -atgcCanvas.width) - 100,
+                    y: (i * atgcFontSize * 2.2) + 40,
+                    speed: 1.5 + Math.random() * 1.5
                 });
             }
         }
         initAtgcRows();
 
         function drawAtgcStream() {
-            ctxAtgc.fillStyle = 'rgba(3, 5, 13, 0.15)';
+            // Clean trail clearing for absolute sharpness (no heavy blur artifacts)
+            ctxAtgc.fillStyle = 'rgba(3, 5, 13, 0.25)';
             ctxAtgc.fillRect(0, 0, atgcCanvas.width, atgcCanvas.height);
 
+            // Use high-visibility font rendering settings
             ctxAtgc.font = 'bold ' + atgcFontSize + 'px "Courier New", monospace';
+            ctxAtgc.shadowBlur = 8;
+            ctxAtgc.shadowColor = '#10b981';
 
             for (let i = 0; i < rowData.length; i++) {
                 let row = rowData[i];
                 
-                // Color configuration: Highlight AMRITA sequence elements or give them a purple aura
-                ctxAtgc.fillStyle = '#34d399'; // Emerald Green strand tone
+                ctxAtgc.fillStyle = '#38ef7d'; // Crisp high-contrast neon green
                 ctxAtgc.fillText(patternText, row.x, row.y);
 
-                // Move row from left to right
                 row.x += row.speed;
 
-                // Reset position smoothly when scrolled past the right side of the window
                 if (row.x > atgcCanvas.width) {
-                    row.x = -600;
-                    row.speed = 1.2 + Math.random() * 2.2;
+                    row.x = -800;
+                    row.speed = 1.5 + Math.random() * 1.5;
                 }
             }
+            // Reset shadow to default so it doesn't affect other things
+            ctxAtgc.shadowBlur = 0;
         }
         setInterval(drawAtgcStream, 30);
 
