@@ -395,6 +395,16 @@
             </main>
         </div>
 
+        <!-- FOOTER: PROFILE IDENTIFIER -->
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(168, 85, 247, 0.25); text-align: center;">
+            <div style="display: inline-block; padding: 4px; border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 50%; box-shadow: 0 0 15px rgba(16, 185, 129, 0.15); background: rgba(10, 8, 20, 0.8);">
+                <img src="288006870.jpg" alt="Mayank Singh" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; display: block;">
+            </div>
+            <div style="font-size: 0.8rem; color: rgba(168, 85, 247, 0.8); margin-top: 10px; letter-spacing: 2px;">
+                OPERATOR // MAYANK SINGH
+            </div>
+        </footer>
+
     </div>
 
     <!-- Include Three.js for DNA Rendering -->
@@ -641,22 +651,18 @@
             for (let i = 0; i < bacteriaList.length; i++) {
                 let b = bacteriaList[i];
 
-                // Update position
                 b.x += b.vx;
                 b.y += b.vy;
 
-                // Screen boundaries bounce
                 if (b.x < 50 || b.x > bacteriaCanvas.width - 50) b.vx *= -1;
                 if (b.y < 50 || b.y > bacteriaCanvas.height - 50) b.vy *= -1;
 
-                // Fission animation cycle (pinching effect via sine wave)
                 b.fissionPhase += b.fissionSpeed;
-                let pinch = Math.sin(b.fissionPhase); // Ranges from -1 to 1
+                let pinch = Math.sin(b.fissionPhase);
 
                 ctxBacteria.save();
                 ctxBacteria.translate(b.x, b.y);
 
-                // Draw bacterial capsule or splitting cells
                 ctxBacteria.strokeStyle = b.colorType;
                 ctxBacteria.fillStyle = b.colorType === '#10b981' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(168, 85, 247, 0.15)';
                 ctxBacteria.lineWidth = 2;
@@ -664,27 +670,23 @@
                 ctxBacteria.shadowColor = b.colorType;
 
                 if (pinch > 0.5) {
-                    // Division stage: Two distinct dividing daughter cells
                     ctxBacteria.beginPath();
                     ctxBacteria.arc(-b.radius * 0.6, 0, b.radius * 0.6, 0, Math.PI * 2);
                     ctxBacteria.arc(b.radius * 0.6, 0, b.radius * 0.6, 0, Math.PI * 2);
                     ctxBacteria.fill();
                     ctxBacteria.stroke();
 
-                    // Inner nucleoid particles
                     ctxBacteria.fillStyle = '#ffffff';
                     ctxBacteria.beginPath();
                     ctxBacteria.arc(-b.radius * 0.6, 0, 3, 0, Math.PI * 2);
                     ctxBacteria.arc(b.radius * 0.6, 0, 3, 0, Math.PI * 2);
                     ctxBacteria.fill();
                 } else {
-                    // Standard elongated rod-like or pill bacterium shape
                     ctxBacteria.beginPath();
                     ctxBacteria.ellipse(0, 0, b.radius, b.radius * 0.55, 0, 0, Math.PI * 2);
                     ctxBacteria.fill();
                     ctxBacteria.stroke();
 
-                    // Inner chromatin/plasmid loop
                     ctxBacteria.strokeStyle = '#ffffff';
                     ctxBacteria.lineWidth = 1;
                     ctxBacteria.beginPath();
