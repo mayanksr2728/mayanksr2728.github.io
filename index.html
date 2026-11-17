@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mayank Singh // Digital Portfolio</title>
     <style>
+
+        /* Enable 3D perspective on the main wrapper */
+body {
+    perspective: 1200px;
+}
+
+.hud-wrapper {
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+
+/* Give the header and cards a slight 3D pop-out depth */
+.terminal-header {
+    transform: translateZ(30px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.hud-card {
+    transform: translateZ(20px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+/* Enhanced 3D Hover Effect for Cards */
+.hud-card:hover {
+    transform: translateZ(45px) scale(1.02);
+    border-color: #a855f7;
+    background: rgba(14, 11, 26, 0.9);
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+}
+        
         /* Base Setup & Reset */
         * {
             box-sizing: border-box;
